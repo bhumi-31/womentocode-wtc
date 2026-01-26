@@ -6,6 +6,7 @@ import About from './components/About'
 import Programs from './components/Programs'
 import Team from './components/Team'
 import TeamMember from './components/TeamMember'
+import Contact from './components/Contact'
 
 // Home page component
 function HomePage() {
@@ -26,6 +27,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/team" element={<Team />} />
         <Route path="/team/:memberId" element={<TeamMember />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
     </div>
   )

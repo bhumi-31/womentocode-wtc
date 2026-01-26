@@ -40,8 +40,7 @@ function Navbar() {
             <Link to="/" onClick={() => setMenuOpen(false)}>HOME</Link>
           )}
           <Link to="/team" onClick={() => setMenuOpen(false)}>TEAM</Link>
-          {isHomePage && <a href="#events" onClick={() => setMenuOpen(false)}>EVENTS</a>}
-          {isHomePage && <a href="#contact" onClick={() => setMenuOpen(false)}>CONTACT</a>}
+          <Link to="/contact" onClick={() => setMenuOpen(false)}>CONTACT</Link>
         </div>
 
         <button 
