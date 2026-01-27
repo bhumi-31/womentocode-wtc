@@ -694,3 +694,80 @@
     justify-content: center;
   }
 }
+
+/* Project Short Description */
+.project-short-desc {
+  font-size: 0.85rem;
+  color: #888;
+  margin-top: 0.5rem;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Modal Status Badge */
+.modal-status {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #333;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.status-badge.completed {
+  background: rgba(76, 175, 80, 0.2);
+  color: #4CAF50;
+  border: 1px solid #4CAF50;
+}
+
+.status-badge.in-progress {
+  background: rgba(247, 208, 70, 0.2);
+  color: #F7D046;
+  border: 1px solid #F7D046;
+}
+
+/* Loader */
+.loader {
+  width: 50px;
+  height: 50px;
+  border: 3px solid #222;
+  border-top-color: #F7D046;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Project Creator Info */
+.project-creator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+  font-size: 0.85rem;
+}
+
+.creator-name {
+  color: #F7D046;
+  font-weight: 500;
+}
+
+.creator-year {
+  color: #888;
+  font-size: 0.8rem;
+}
+
+.creator-year::before {
+  content: '•';
+  margin-right: 0.5rem;
+}

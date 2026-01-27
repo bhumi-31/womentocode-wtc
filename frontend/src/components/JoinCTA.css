@@ -76,6 +76,8 @@
 .join-title .title-line {
   display: block;
   overflow: hidden;
+  font-size: clamp(3rem, 10vw, 6rem);
+  line-height: 1;
 }
 
 .join-title .title-line:nth-child(2) {

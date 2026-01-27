@@ -103,6 +103,41 @@
   color: var(--color-accent);
 }
 
+/* User Section (When Logged In) */
+.nav-user-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: 1rem;
+}
+
+.nav-user-name {
+  color: var(--color-accent);
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+.nav-logout-btn {
+  display: flex;
+  align-items: center;
+  padding: 0.6rem 1.2rem;
+  background: transparent;
+  border: 1px solid rgba(239, 68, 68, 0.5);
+  color: #f87171;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nav-logout-btn:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
 /* Nav Links */
 .nav-links {
   display: flex;

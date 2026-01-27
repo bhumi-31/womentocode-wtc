@@ -1,0 +1,2004 @@
+/* ===========================================
+   ADMIN DASHBOARD - WOMENTOCODE
+   All styles scoped to .admin-page
+   =========================================== */
+
+/* ========== ADMIN PAGE LAYOUT ========== */
+.admin-page {
+  --admin-bg: #0a0a0a;
+  --admin-surface: #111111;
+  --admin-border: #222222;
+  --admin-text: #FAF7F2;
+  --admin-muted: #888888;
+  --admin-accent: #F7D046;
+  
+  min-height: 100vh;
+  background: var(--admin-bg);
+  color: var(--admin-text);
+  font-family: 'Inter', sans-serif;
+}
+
+/* ========== NOTIFICATION STYLES ========== */
+.admin-notification {
+  position: fixed;
+  top: 100px;
+  right: 30px;
+  padding: 16px 24px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 10000;
+  animation: slideInRight 0.4s ease, fadeOut 0.4s ease 3.6s forwards;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  min-width: 280px;
+}
+
+.admin-notification.success {
+  background: linear-gradient(135deg, #1a3a1a 0%, #0d1f0d 100%);
+  border: 1px solid #4CAF50;
+  color: #81C784;
+}
+
+.admin-notification.error {
+  background: linear-gradient(135deg, #3a1a1a 0%, #1f0d0d 100%);
+  border: 1px solid #f44336;
+  color: #E57373;
+}
+
+.notification-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.admin-notification.success .notification-icon {
+  background: #4CAF50;
+  color: #fff;
+}
+
+.admin-notification.error .notification-icon {
+  background: #f44336;
+  color: #fff;
+}
+
+.notification-message {
+  font-size: 14px;
+  letter-spacing: 0.02em;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+}
+
+/* Admin Loading */
+.admin-loading {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0a0a0a;
+  color: #FAF7F2;
+}
+
+.admin-loading .loading-content {
+  text-align: center;
+}
+
+.admin-loading .loading-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 4rem;
+  color: #F7D046;
+}
+
+.admin-loading p {
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 0.2em;
+  margin-top: 1rem;
+}
+
+/* ========== ADMIN HEADER ========== */
+.admin-page .admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 3rem;
+  border-bottom: 1px solid var(--admin-border);
+  background: var(--admin-bg);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  gap: 2rem;
+}
+
+.admin-page .header-left {
+  flex-shrink: 0;
+}
+
+.admin-page .admin-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: var(--admin-text);
+}
+
+.admin-page .brand-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--admin-accent);
+  color: var(--admin-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.admin-page .brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.admin-page .brand-text span:first-child {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.1em;
+}
+
+.admin-page .brand-sub {
+  font-size: 0.65rem;
+  color: var(--admin-muted);
+  letter-spacing: 0.15em;
+}
+
+/* Admin Navigation */
+.admin-page .admin-nav {
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.admin-page .admin-nav .nav-link {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  padding: 0.75rem 1.25rem;
+  color: var(--admin-muted);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  position: relative;
+  white-space: nowrap;
+}
+
+.admin-page .admin-nav .nav-link:hover {
+  color: var(--admin-text);
+}
+
+.admin-page .admin-nav .nav-link.active {
+  color: var(--admin-accent);
+}
+
+.admin-page .admin-nav .nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40%;
+  height: 2px;
+  background: var(--admin-accent);
+}
+
+/* Header Right */
+.admin-page .header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.admin-page .user-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: 4px;
+}
+
+.admin-page .user-badge .user-avatar {
+  width: 28px;
+  height: 28px;
+  background: var(--admin-accent);
+  color: var(--admin-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.admin-page .user-badge .user-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+}
+
+.admin-page .logout-btn {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  padding: 0.5rem 1rem;
+  background: none;
+  border: 1px solid var(--admin-border);
+  color: var(--admin-text);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-page .logout-btn:hover {
+  border-color: var(--admin-accent);
+  color: var(--admin-accent);
+}
+
+/* ========== ADMIN MAIN CONTENT ========== */
+.admin-page .admin-main {
+  padding: 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ========== ADMIN FOOTER ========== */
+.admin-page .admin-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 3rem;
+  border-top: 1px solid var(--admin-border);
+  margin-top: 3rem;
+}
+
+.admin-page .admin-footer p {
+  font-size: 0.75rem;
+  color: var(--admin-muted);
+  margin: 0;
+}
+
+.admin-page .admin-footer .back-to-site {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  color: var(--admin-accent);
+  text-decoration: none;
+}
+
+/* ========== PAGE HEADERS ========== */
+.admin-page .page-header {
+  margin-bottom: 3rem;
+}
+
+.admin-page .page-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 4rem;
+  letter-spacing: 0.05em;
+  color: var(--admin-text);
+  margin: 0;
+  line-height: 1;
+}
+
+.admin-page .title-line {
+  width: 60px;
+  height: 3px;
+  background: var(--admin-accent);
+  margin-top: 1rem;
+}
+
+/* ========== DASHBOARD ========== */
+.admin-page .dashboard {
+  width: 100%;
+}
+
+/* Stats Section */
+.admin-page .stats-section {
+  display: flex;
+  gap: 0;
+  margin-bottom: 3rem;
+  border-bottom: 1px solid var(--admin-border);
+  padding-bottom: 2rem;
+}
+
+.admin-page .stat-block {
+  flex: 1;
+  padding: 0 2rem;
+  border-right: 1px solid var(--admin-border);
+}
+
+.admin-page .stat-block:first-child {
+  padding-left: 0;
+}
+
+.admin-page .stat-block:last-child {
+  border-right: none;
+}
+
+.admin-page .stat-block .stat-number {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 5rem;
+  line-height: 1;
+  color: var(--admin-text);
+  display: block;
+}
+
+.admin-page .stat-block .stat-divider {
+  width: 30px;
+  height: 2px;
+  background: var(--admin-accent);
+  margin: 0.75rem 0;
+}
+
+.admin-page .stat-block .stat-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--admin-muted);
+  display: block;
+}
+
+.admin-page .stat-block.highlight .stat-number {
+  color: var(--admin-accent);
+}
+
+/* Content Sections */
+.admin-page .content-section {
+  margin-bottom: 3rem;
+}
+
+.admin-page .section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.admin-page .section-header h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.5rem;
+  letter-spacing: 0.1em;
+  color: var(--admin-text);
+  margin: 0;
+}
+
+.admin-page .view-all-link {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  color: var(--admin-accent);
+  text-decoration: none;
+}
+
+.admin-page .section-line {
+  width: 40px;
+  height: 2px;
+  background: var(--admin-accent);
+  margin-bottom: 1.5rem;
+}
+
+/* Messages Grid */
+.admin-page .messages-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.admin-page .message-card {
+  padding: 1.25rem;
+  border: 1px solid var(--admin-border);
+  background: var(--admin-surface);
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.admin-page .message-card:hover {
+  border-color: var(--admin-accent);
+}
+
+.admin-page .message-card.unread {
+  border-left: 3px solid var(--admin-accent);
+}
+
+.admin-page .message-card .new-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  background: var(--admin-accent);
+  color: var(--admin-bg);
+  padding: 0.2rem 0.5rem;
+}
+
+.admin-page .message-sender {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.admin-page .sender-initial {
+  width: 32px;
+  height: 32px;
+  background: var(--admin-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1rem;
+  color: var(--admin-accent);
+}
+
+.admin-page .sender-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+}
+
+.admin-page .message-subject {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin: 0 0 0.5rem 0;
+}
+
+.admin-page .message-preview {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  color: var(--admin-muted);
+  margin: 0 0 0.75rem 0;
+  line-height: 1.4;
+}
+
+.admin-page .message-time {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  color: var(--admin-muted);
+}
+
+/* Users List */
+.admin-page .users-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-page .users-list .user-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--admin-border);
+}
+
+.admin-page .users-list .user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.admin-page .users-list .user-initial {
+  width: 40px;
+  height: 40px;
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.9rem;
+  color: var(--admin-accent);
+}
+
+.admin-page .users-list .user-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-page .users-list .user-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+}
+
+.admin-page .users-list .user-email {
+  font-size: 0.75rem;
+  color: var(--admin-muted);
+}
+
+.admin-page .role-tag {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  padding: 0.3rem 0.75rem;
+  border: 1px solid var(--admin-border);
+  text-transform: uppercase;
+}
+
+.admin-page .role-tag.admin {
+  border-color: var(--admin-accent);
+  color: var(--admin-accent);
+}
+
+.admin-page .role-tag.user {
+  color: var(--admin-muted);
+}
+
+/* Actions Section */
+.admin-page .actions-section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.admin-page .action-card {
+  padding: 1.5rem;
+  border: 1px solid var(--admin-border);
+  background: var(--admin-surface);
+  text-decoration: none;
+  color: var(--admin-text);
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.admin-page .action-card:hover {
+  border-color: var(--admin-accent);
+}
+
+.admin-page .action-card .action-icon {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2rem;
+  color: var(--admin-accent);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.admin-page .action-card .action-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+}
+
+/* Empty State */
+.admin-page .empty-state {
+  padding: 2rem;
+  text-align: center;
+  color: var(--admin-muted);
+}
+
+.admin-page .empty-state p {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  margin: 0;
+}
+
+/* ========== USERS PAGE ========== */
+.admin-page .admin-users .search-section {
+  margin-bottom: 2rem;
+}
+
+.admin-page .search-input {
+  width: 300px;
+  padding: 0.75rem 1rem;
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  color: var(--admin-text);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+}
+
+.admin-page .search-input::placeholder {
+  color: var(--admin-muted);
+}
+
+.admin-page .search-input:focus {
+  outline: none;
+  border-color: var(--admin-accent);
+}
+
+/* Users Table */
+.admin-page .users-table {
+  width: 100%;
+}
+
+.admin-page .users-table .table-header {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 1fr 1fr;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--admin-border);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  color: var(--admin-muted);
+}
+
+.admin-page .users-table .table-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-page .users-table .table-row {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 1fr 1fr;
+  gap: 1rem;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--admin-border);
+  align-items: center;
+}
+
+.admin-page .users-table .col-user {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.admin-page .users-table .user-initial {
+  width: 36px;
+  height: 36px;
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Bebas Neue', sans-serif;
+  color: var(--admin-accent);
+}
+
+.admin-page .users-table .user-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+}
+
+.admin-page .users-table .col-email {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  color: var(--admin-muted);
+}
+
+.admin-page .users-table .col-date {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  color: var(--admin-muted);
+}
+
+.admin-page .users-table th {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  color: var(--admin-muted);
+  text-align: left;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--admin-border);
+}
+
+.admin-page .users-table td {
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--admin-border);
+  vertical-align: middle;
+}
+
+.admin-page .table-user {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.admin-page .table-avatar {
+  width: 36px;
+  height: 36px;
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Bebas Neue', sans-serif;
+  color: var(--admin-accent);
+}
+
+.admin-page .table-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+}
+
+.admin-page .table-email {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  color: var(--admin-muted);
+}
+
+.admin-page .table-date {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  color: var(--admin-muted);
+}
+
+/* Role Select */
+.admin-page .role-select {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  padding: 0.4rem 0.8rem;
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  color: var(--admin-text);
+  cursor: pointer;
+}
+
+.admin-page .role-select:focus {
+  outline: none;
+  border-color: var(--admin-accent);
+}
+
+.admin-page .role-select.admin {
+  border-color: var(--admin-accent);
+}
+
+.admin-page .btn-delete-user {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  padding: 0.4rem 0.8rem;
+  background: none;
+  border: 1px solid #ff4444;
+  color: #ff4444;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-page .btn-delete-user:hover {
+  background: #ff4444;
+  color: white;
+}
+
+.admin-page .no-users {
+  text-align: center;
+  padding: 3rem;
+  color: var(--admin-muted);
+}
+
+/* ========== MESSAGES PAGE ========== */
+.admin-page .admin-messages .filter-section {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.admin-page .filter-btn {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  padding: 0.6rem 1.2rem;
+  background: none;
+  border: 1px solid var(--admin-border);
+  color: var(--admin-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-page .filter-btn:hover {
+  border-color: var(--admin-text);
+  color: var(--admin-text);
+}
+
+.admin-page .filter-btn.active {
+  background: var(--admin-accent);
+  border-color: var(--admin-accent);
+  color: var(--admin-bg);
+}
+
+.admin-page .messages-layout {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 2rem;
+  min-height: 500px;
+}
+
+/* Messages List */
+.admin-page .messages-list {
+  border: 1px solid var(--admin-border);
+  overflow-y: auto;
+  max-height: 600px;
+}
+
+.admin-page .message-item {
+  padding: 1.25rem;
+  border-bottom: 1px solid var(--admin-border);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.admin-page .message-item:hover {
+  background: var(--admin-surface);
+}
+
+.admin-page .message-item.selected {
+  background: var(--admin-surface);
+  border-left: 3px solid var(--admin-accent);
+}
+
+.admin-page .message-item.unread {
+  background: rgba(247, 208, 70, 0.03);
+}
+
+.admin-page .unread-indicator {
+  position: absolute;
+  top: 1.25rem;
+  right: 1rem;
+  width: 8px;
+  height: 8px;
+  background: var(--admin-accent);
+  border-radius: 50%;
+}
+
+.admin-page .message-item .msg-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.admin-page .message-item .msg-initial {
+  width: 32px;
+  height: 32px;
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Bebas Neue', sans-serif;
+  color: var(--admin-accent);
+}
+
+.admin-page .message-item .msg-meta {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-page .message-item .msg-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+}
+
+.admin-page .message-item .msg-time {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.65rem;
+  color: var(--admin-muted);
+}
+
+.admin-page .message-item .msg-subject {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin: 0 0 0.25rem 0;
+  color: var(--admin-text);
+}
+
+.admin-page .message-item .msg-preview {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  color: var(--admin-muted);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Message Detail */
+.admin-page .message-detail {
+  border: 1px solid var(--admin-border);
+  padding: 2rem;
+}
+
+.admin-page .detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--admin-border);
+  margin-bottom: 1.5rem;
+}
+
+.admin-page .sender-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.admin-page .detail-header .sender-initial {
+  width: 50px;
+  height: 50px;
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.5rem;
+  color: var(--admin-accent);
+}
+
+.admin-page .sender-details h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.3rem;
+  letter-spacing: 0.05em;
+  margin: 0 0 0.25rem 0;
+}
+
+.admin-page .sender-details a {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  color: var(--admin-muted);
+  text-decoration: none;
+}
+
+.admin-page .sender-details a:hover {
+  color: var(--admin-accent);
+}
+
+.admin-page .detail-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.admin-page .btn-reply {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  padding: 0.6rem 1.2rem;
+  background: var(--admin-accent);
+  border: none;
+  color: var(--admin-bg);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.admin-page .btn-reply:hover {
+  filter: brightness(1.1);
+}
+
+.admin-page .btn-delete {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  padding: 0.6rem 1.2rem;
+  background: none;
+  border: 1px solid #ff4444;
+  color: #ff4444;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-page .btn-delete:hover {
+  background: #ff4444;
+  color: white;
+}
+
+.admin-page .detail-subject,
+.admin-page .detail-body {
+  margin-bottom: 1.5rem;
+}
+
+.admin-page .detail-subject .label,
+.admin-page .detail-body .label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--admin-muted);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.admin-page .detail-subject p {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.5rem;
+  letter-spacing: 0.03em;
+  margin: 0;
+}
+
+.admin-page .detail-body p {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.admin-page .detail-footer {
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--admin-border);
+}
+
+.admin-page .detail-footer span {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  color: var(--admin-muted);
+}
+
+.admin-page .no-selection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--admin-muted);
+}
+
+.admin-page .no-selection .arrow {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.admin-page .no-selection p {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+}
+
+/* ========== LOADING STATE ========== */
+.admin-page .page-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+}
+
+.admin-page .loader {
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--admin-border);
+  border-top-color: var(--admin-accent);
+  border-radius: 50%;
+  animation: adminSpin 0.8s linear infinite;
+}
+
+@keyframes adminSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1024px) {
+  .admin-page .admin-header {
+    flex-wrap: wrap;
+    padding: 1rem 1.5rem;
+    gap: 1rem;
+  }
+  
+  .admin-page .admin-nav {
+    order: 3;
+    width: 100%;
+    justify-content: flex-start;
+    gap: 0;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+  }
+  
+  .admin-page .admin-nav .nav-link {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+  
+  .admin-page .admin-main {
+    padding: 2rem 1.5rem;
+  }
+  
+  .admin-page .page-title {
+    font-size: 3rem;
+  }
+  
+  .admin-page .messages-layout {
+    grid-template-columns: 1fr;
+  }
+  
+  .admin-page .message-detail {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-page .admin-header {
+    padding: 1rem;
+  }
+  
+  .admin-page .header-right {
+    gap: 0.5rem;
+  }
+  
+  .admin-page .user-badge .user-name {
+    display: none;
+  }
+  
+  .admin-page .page-title {
+    font-size: 2.5rem;
+  }
+  
+  .admin-page .stat-block .stat-number {
+    font-size: 3rem;
+  }
+  
+  .admin-page .stats-section {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .admin-page .stat-block {
+    border-right: none;
+    border-bottom: 1px solid var(--admin-border);
+    padding: 1rem 0;
+  }
+  
+  .admin-page .stat-block:last-child {
+    border-bottom: none;
+  }
+  
+  .admin-page .actions-section {
+    grid-template-columns: 1fr;
+  }
+  
+  .admin-page .search-input {
+    width: 100%;
+  }
+  
+  .admin-page .admin-footer {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+}
+
+/* ===========================================
+   ADMIN TEAM PAGE STYLES
+   =========================================== */
+
+.admin-page .team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.admin-page .team-card {
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.admin-page .team-card .member-image {
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.admin-page .team-card .member-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.admin-page .team-card .member-initial {
+  width: 80px;
+  height: 80px;
+  background: var(--admin-accent);
+  color: var(--admin-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2rem;
+  border-radius: 50%;
+}
+
+.admin-page .team-card .inactive-badge {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: #f44336;
+  color: white;
+  font-size: 0.6rem;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+}
+
+.admin-page .team-card .member-info {
+  flex: 1;
+}
+
+.admin-page .team-card .member-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.admin-page .team-card .member-role {
+  color: var(--admin-accent);
+  font-size: 0.9rem;
+  margin: 0.25rem 0;
+}
+
+.admin-page .team-card .member-bio {
+  color: var(--admin-muted);
+  font-size: 0.85rem;
+  margin: 0.5rem 0;
+  line-height: 1.5;
+}
+
+.admin-page .team-card .member-socials {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.admin-page .team-card .member-socials span {
+  font-size: 0.75rem;
+  color: var(--admin-muted);
+  background: var(--admin-border);
+  padding: 0.2rem 0.5rem;
+}
+
+.admin-page .team-card .member-actions {
+  display: flex;
+  gap: 0.5rem;
+  border-top: 1px solid var(--admin-border);
+  padding-top: 1rem;
+}
+
+/* ===========================================
+   ADMIN EVENTS PAGE STYLES
+   =========================================== */
+
+.admin-page .events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.admin-page .event-card {
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  padding: 1.5rem;
+  display: grid;
+  grid-template-columns: 80px 1fr auto auto;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.admin-page .event-date-block {
+  text-align: center;
+  padding: 0.5rem;
+  border: 1px solid var(--admin-border);
+}
+
+.admin-page .event-date-block .event-month {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--admin-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.admin-page .event-date-block .event-day {
+  display: block;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2rem;
+}
+
+.admin-page .event-info {
+  flex: 1;
+}
+
+.admin-page .event-info .event-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.admin-page .event-info .event-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.3rem;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.admin-page .event-info .event-type {
+  background: var(--admin-border);
+  padding: 0.2rem 0.6rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.admin-page .event-info .event-desc {
+  color: var(--admin-muted);
+  font-size: 0.85rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.admin-page .event-info .event-meta {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  color: var(--admin-muted);
+}
+
+.admin-page .event-status {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+}
+
+.admin-page .event-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* ===========================================
+   ADMIN PROJECTS PAGE STYLES
+   =========================================== */
+
+.admin-page .projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.admin-page .project-card {
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-page .project-card .project-image {
+  position: relative;
+  height: 180px;
+  background: var(--admin-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-page .project-card .project-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.admin-page .project-card .project-placeholder {
+  font-size: 3rem;
+}
+
+.admin-page .project-card .featured-badge,
+.admin-page .project-card .hidden-badge {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.7rem;
+  background: var(--admin-accent);
+  color: var(--admin-bg);
+}
+
+.admin-page .project-card .hidden-badge {
+  background: #f44336;
+  color: white;
+  left: 0.75rem;
+  right: auto;
+}
+
+.admin-page .project-card .project-info {
+  padding: 1.25rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-page .project-card .project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+.admin-page .project-card .project-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.3rem;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.admin-page .project-card .project-status {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.admin-page .project-card .project-desc {
+  color: var(--admin-muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin: 0 0 1rem 0;
+}
+
+.admin-page .project-card .project-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.admin-page .project-card .project-category {
+  background: var(--admin-accent);
+  color: var(--admin-bg);
+  padding: 0.2rem 0.5rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.admin-page .project-card .tech-tag {
+  background: var(--admin-border);
+  padding: 0.2rem 0.5rem;
+  font-size: 0.7rem;
+}
+
+.admin-page .project-card .project-links {
+  display: flex;
+  gap: 1rem;
+  margin-top: auto;
+  margin-bottom: 1rem;
+}
+
+.admin-page .project-card .project-links a {
+  color: var(--admin-accent);
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+
+.admin-page .project-card .project-links a:hover {
+  text-decoration: underline;
+}
+
+.admin-page .project-card .project-actions {
+  display: flex;
+  gap: 0.5rem;
+  border-top: 1px solid var(--admin-border);
+  padding-top: 1rem;
+}
+
+/* ===========================================
+   SHARED ADMIN STYLES
+   =========================================== */
+
+/* Page Header with Button */
+.admin-page .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+}
+
+.admin-page .header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.admin-page .page-subtitle {
+  color: var(--admin-muted);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Add Button */
+.admin-page .add-btn {
+  background: var(--admin-accent);
+  color: var(--admin-bg);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.admin-page .add-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+}
+
+/* Filter Tabs */
+.admin-page .filter-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.admin-page .filter-tab {
+  background: transparent;
+  border: 1px solid var(--admin-border);
+  color: var(--admin-muted);
+  padding: 0.5rem 1rem;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.admin-page .filter-tab:hover {
+  border-color: var(--admin-accent);
+  color: var(--admin-text);
+}
+
+.admin-page .filter-tab.active {
+  background: var(--admin-accent);
+  border-color: var(--admin-accent);
+  color: var(--admin-bg);
+}
+
+/* Empty State */
+.admin-page .empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  border: 1px dashed var(--admin-border);
+  grid-column: 1 / -1;
+}
+
+.admin-page .empty-state p {
+  color: var(--admin-muted);
+  margin-bottom: 1.5rem;
+}
+
+/* Edit/Delete Buttons */
+.admin-page .edit-btn,
+.admin-page .delete-btn {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  border: 1px solid var(--admin-border);
+  background: transparent;
+  color: var(--admin-text);
+  transition: all 0.2s;
+}
+
+.admin-page .edit-btn:hover {
+  background: var(--admin-accent);
+  border-color: var(--admin-accent);
+  color: var(--admin-bg);
+}
+
+.admin-page .delete-btn:hover {
+  background: #f44336;
+  border-color: #f44336;
+  color: white;
+}
+
+/* Modal Styles */
+.admin-page .modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 2rem;
+}
+
+.admin-page .modal {
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.admin-page .modal.modal-large {
+  max-width: 700px;
+}
+
+.admin-page .modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid #333;
+  background: #111;
+}
+
+.admin-page .modal-header h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem;
+  letter-spacing: 0.1em;
+  margin: 0;
+  color: #FAF7F2;
+}
+
+.admin-page .modal-header .close-btn {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 2rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.admin-page .modal-header .close-btn:hover {
+  color: #F7D046;
+}
+
+.admin-page .modal-form {
+  padding: 2rem;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+/* Custom scrollbar for modal */
+.admin-page .modal-form::-webkit-scrollbar {
+  width: 6px;
+}
+
+.admin-page .modal-form::-webkit-scrollbar-track {
+  background: #111;
+}
+
+.admin-page .modal-form::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 3px;
+}
+
+.admin-page .modal-form::-webkit-scrollbar-thumb:hover {
+  background: #F7D046;
+}
+
+.admin-page .modal-form .form-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 0;
+}
+
+.admin-page .modal-form .form-row.three-col {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.admin-page .modal-form .form-group {
+  margin-bottom: 1.5rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-page .modal-form .form-group label {
+  position: static !important;
+  display: block !important;
+  font-size: 0.75rem !important;
+  color: #888 !important;
+  margin-bottom: 0.75rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.12em !important;
+  font-weight: 600 !important;
+  top: auto !important;
+  left: auto !important;
+  transform: none !important;
+  pointer-events: auto !important;
+}
+
+.admin-page .modal-form .form-group input,
+.admin-page .modal-form .form-group select,
+.admin-page .modal-form .form-group textarea {
+  width: 100% !important;
+  padding: 1rem 1.25rem !important;
+  background: #151515 !important;
+  border: 1px solid #333 !important;
+  border-radius: 6px !important;
+  color: #FAF7F2 !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 1rem !important;
+  box-sizing: border-box !important;
+  transition: all 0.2s ease !important;
+}
+
+.admin-page .modal-form .form-group input::placeholder,
+.admin-page .modal-form .form-group textarea::placeholder {
+  color: #555 !important;
+  opacity: 1 !important;
+}
+
+.admin-page .modal-form .form-group input:hover,
+.admin-page .modal-form .form-group select:hover,
+.admin-page .modal-form .form-group textarea:hover {
+  border-color: #555 !important;
+}
+
+.admin-page .modal-form .form-group input:focus,
+.admin-page .modal-form .form-group select:focus,
+.admin-page .modal-form .form-group textarea:focus {
+  outline: none !important;
+  border-color: #F7D046 !important;
+  background: #1a1a1a !important;
+  box-shadow: 0 0 0 3px rgba(247, 208, 70, 0.15) !important;
+}
+
+.admin-page .modal-form .form-group select {
+  cursor: pointer !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23F7D046' d='M6 8L1 3h10z'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 1rem center !important;
+  padding-right: 2.5rem !important;
+}
+
+/* File Input Styling */
+.admin-page .modal-form .form-group input[type="file"] {
+  padding: 0.75rem 1rem !important;
+  background: #151515 !important;
+  border: 2px dashed #444 !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  color: #888 !important;
+}
+
+.admin-page .modal-form .form-group input[type="file"]:hover {
+  border-color: #F7D046 !important;
+  background: #1a1a1a !important;
+}
+
+.admin-page .modal-form .form-group input[type="file"]::file-selector-button {
+  background: #F7D046;
+  color: #0a0a0a;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin-right: 1rem;
+  border-radius: 4px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.admin-page .modal-form .form-group input[type="file"]::file-selector-button:hover {
+  background: #ffe066;
+}
+
+/* Image Preview */
+.admin-page .modal-form .image-preview {
+  margin-top: 1rem;
+  border: 1px solid #333;
+  border-radius: 6px;
+  overflow: hidden;
+  max-width: 200px;
+}
+
+.admin-page .modal-form .image-preview img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.admin-page .modal-form .form-group textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.5;
+}
+
+.admin-page .modal-form .form-section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.2rem;
+  letter-spacing: 0.15em;
+  color: #F7D046;
+  margin: 2rem 0 1.25rem 0;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #222;
+}
+
+.admin-page .modal-form .checkbox-group {
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.admin-page .modal-form .checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  text-transform: none;
+  letter-spacing: 0;
+  color: #ccc;
+  font-weight: 400;
+  margin-bottom: 0;
+  transition: color 0.2s;
+}
+
+.admin-page .modal-form .checkbox-group label:hover {
+  color: #FAF7F2;
+}
+
+.admin-page .modal-form .checkbox-group input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  padding: 0;
+  cursor: pointer;
+  accent-color: #F7D046;
+  border-radius: 3px;
+}
+
+.admin-page .modal-actions {
+  display: flex;
+  gap: 1rem;
+  padding: 1.5rem 2rem;
+  border-top: 1px solid #222;
+  background: #111;
+  margin: 0 -2rem -2rem -2rem;
+}
+
+.admin-page .cancel-btn,
+.admin-page .submit-btn {
+  flex: 1;
+  padding: 1rem 1.5rem;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+}
+
+.admin-page .cancel-btn {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  color: #888;
+}
+
+.admin-page .cancel-btn:hover {
+  background: #222;
+  color: #FAF7F2;
+  border-color: #444;
+}
+
+.admin-page .submit-btn {
+  background: #F7D046;
+  color: #0a0a0a;
+  font-weight: 500;
+}
+
+.admin-page .submit-btn:hover {
+  background: #ffe066;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(247, 208, 70, 0.3);
+}
+
+.admin-page .submit-btn:active {
+  transform: translateY(0);
+}
+
+/* Responsive for new pages */
+@media (max-width: 768px) {
+  .admin-page .event-card {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .admin-page .event-date-block {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-start;
+  }
+  
+  .admin-page .event-date-block .event-day {
+    font-size: 1.5rem;
+  }
+  
+  .admin-page .event-status,
+  .admin-page .event-actions {
+    justify-self: start;
+  }
+  
+  .admin-page .modal-form .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .admin-page .projects-grid,
+  .admin-page .team-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .admin-page .modal {
+    margin: 1rem;
+    max-height: 95vh;
+  }
+  
+  .admin-page .modal-form {
+    padding: 1.5rem;
+  }
+  
+  .admin-page .modal-actions {
+    margin: 0 -1.5rem -1.5rem -1.5rem;
+    padding: 1.25rem 1.5rem;
+  }
+}
+
+/* Project Creator Info */
+.admin-page .project-card .project-creator-info {
+  font-size: 0.85rem;
+  color: var(--admin-muted);
+  margin: 0.25rem 0 0.5rem 0;
+}
+
+.admin-page .project-card .project-creator-info strong {
+  color: var(--admin-accent);
+}

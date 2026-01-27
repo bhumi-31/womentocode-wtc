@@ -46,7 +46,8 @@ const app = express();
 // STEP 3: Middleware
 // ------------------------------------------
 app.use(cors());           // Allow cross-origin requests
-app.use(express.json());   // Parse JSON bodies
+app.use(express.json({ limit: '50mb' }));   // Parse JSON bodies with larger limit for base64 images
+app.use(express.urlencoded({ limit: '50mb', extended: true }));  // Parse URL-encoded bodies
 
 // ------------------------------------------
 // STEP 4: API Routes
@@ -60,18 +61,18 @@ app.get('/', (req, res) => {
     version: '1.0.0',
     endpoints: {
       auth: {
-        register: 'POST /api/auth/register',
-        login: 'POST /api/auth/login',
-        getMe: 'GET /api/auth/me (protected)',
-        getAllUsers: 'GET /api/auth/users (admin only)'
+        register: 'POST /auth/register',
+        login: 'POST /auth/login',
+        getMe: 'GET /auth/me (protected)',
+        getAllUsers: 'GET /auth/users (admin only)'
       },
-      health: 'GET /api/health'
+      health: 'GET /health'
     }
   });
 });
 
 // Health check
-app.get('/api/health', (req, res) => {
+app.get('/health', (req, res) => {
   const mongoose = require('mongoose');
   res.json({
     success: true,
@@ -81,29 +82,29 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Mount auth routes at /api/auth
-app.use('/api/auth', authRoutes);
+// Mount auth routes at /auth
+app.use('/auth', authRoutes);
 
-// Mount team routes at /api/team
-app.use('/api/team', teamRoutes);
+// Mount team routes at /team
+app.use('/team', teamRoutes);
 
-// Mount project routes at /api/projects
-app.use('/api/projects', projectRoutes);
+// Mount project routes at /projects
+app.use('/projects', projectRoutes);
 
-// Mount contact routes at /api/contact
-app.use('/api/contact', contactRoutes);
+// Mount contact routes at /contact
+app.use('/contact', contactRoutes);
 
-// Mount gallery routes at /api/gallery
-app.use('/api/gallery', galleryRoutes);
+// Mount gallery routes at /gallery
+app.use('/gallery', galleryRoutes);
 
-// Mount event routes at /api/events
-app.use('/api/events', eventRoutes);
+// Mount event routes at /events
+app.use('/events', eventRoutes);
 
-// Mount announcement routes at /api/announcements
-app.use('/api/announcements', announcementRoutes);
+// Mount announcement routes at /announcements
+app.use('/announcements', announcementRoutes);
 
-// Mount article routes at /api/articles
-app.use('/api/articles', articleRoutes);
+// Mount article routes at /articles
+app.use('/articles', articleRoutes);
 
 // ------------------------------------------
 // STEP 5: 404 Handler (Route not found)

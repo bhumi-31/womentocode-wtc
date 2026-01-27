@@ -1,8 +1,11 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Auth.css';
 
+const API_URL = 'http://localhost:5001';
+
 const Signup = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -12,6 +15,8 @@ const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   const handleChange = (e) => {
     setFormData({
@@ -23,18 +28,47 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!agreeTerms) {
-      alert('Please agree to the Terms & Conditions');
+      setError('Please agree to the Terms & Conditions');
       return;
     }
     setIsLoading(true);
+    setError('');
+    setSuccess('');
     
-    // TODO: Connect to backend API
-    console.log('Signup:', formData);
-    
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      const response = await fetch(`${API_URL}/auth/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          ...formData,
+          agreeToTerms: agreeTerms
+        })
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        // Store token and user info
+        localStorage.setItem('token', data.data.token);
+        localStorage.setItem('user', JSON.stringify(data.data.user));
+        
+        setSuccess('Account created successfully! Redirecting...');
+        
+        // Redirect to home
+        setTimeout(() => {
+          navigate('/');
+        }, 1500);
+      } else {
+        setError(data.message || 'Registration failed. Please try again.');
+      }
+    } catch (err) {
+      setError('Server error. Please try again later.');
+      console.error('Signup error:', err);
+    } finally {
       setIsLoading(false);
-    }, 1500);
+    }
   };
 
   return (
@@ -109,6 +143,9 @@ const Signup = () => {
 
           <h2 className="form-title">JOIN THE COMMUNITY</h2>
           <p className="form-subtitle">Create your account and start your journey</p>
+
+          {error && <div className="auth-error">{error}</div>}
+          {success && <div className="auth-success">{success}</div>}
 
           <form onSubmit={handleSubmit} className="auth-form">
             <div className="form-row">

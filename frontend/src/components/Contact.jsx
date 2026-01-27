@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import Navbar from './Navbar'
 import './Contact.css'
 
+const API_URL = 'http://localhost:5001';
+
 function Contact() {
   const [loaded, setLoaded] = useState(false)
   const [formData, setFormData] = useState({
@@ -59,14 +61,39 @@ function Contact() {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    setSubmitted(true)
-    // Reset after animation
-    setTimeout(() => {
-      setSubmitted(false)
-      setFormData({ firstName: '', lastName: '', email: '', subject: '', message: '' })
-    }, 3000)
+    
+    try {
+      const response = await fetch(`${API_URL}/contact`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: `${formData.firstName} ${formData.lastName}`,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message
+        })
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        setSubmitted(true)
+        // Reset after animation
+        setTimeout(() => {
+          setSubmitted(false)
+          setFormData({ firstName: '', lastName: '', email: '', subject: '', message: '' })
+        }, 3000)
+      } else {
+        alert(data.message || 'Failed to send message. Please try again.');
+      }
+    } catch (err) {
+      console.error('Contact form error:', err);
+      alert('Server error. Please try again later.');
+    }
   }
 
   const contactInfo = [

@@ -1,21 +1,58 @@
 import { useState, useEffect, useRef } from 'react';
-import { projectsData, categories } from '../data/projectsData';
 import Navbar from './Navbar';
 import './Projects.css';
 
+const API_URL = 'http://localhost:5001';
+
+const categories = ['All', 'Web Development', 'Mobile', 'Data Science', 'AI/ML', 'Design'];
+
 const Projects = () => {
+  const [projects, setProjects] = useState([]);
   const [activeCategory, setActiveCategory] = useState('All');
-  const [filteredProjects, setFilteredProjects] = useState(projectsData);
+  const [filteredProjects, setFilteredProjects] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProject, setSelectedProject] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [visibleChars, setVisibleChars] = useState({ line1: 0, line2: 0, line3: 0 });
   const animationStarted = useRef(false);
 
   const line1 = "WOMEN";
   const line2 = "BUILDING THE";
   const line3 = "FUTURE";
+
+  // Fetch projects from API
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await fetch(`${API_URL}/projects`);
+        const data = await response.json();
+        
+        if (Array.isArray(data)) {
+          setProjects(data);
+          setFilteredProjects(data);
+        } else if (data.success && Array.isArray(data.data)) {
+          setProjects(data.data);
+          setFilteredProjects(data.data);
+        } else if (data.projects) {
+          setProjects(data.projects);
+          setFilteredProjects(data.projects);
+        } else {
+          setProjects([]);
+          setFilteredProjects([]);
+        }
+      } catch (error) {
+        console.error('Error fetching projects:', error);
+        setProjects([]);
+        setFilteredProjects([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchProjects();
+  }, []);
 
   // Character by character animation for heading
   useEffect(() => {
@@ -64,24 +101,28 @@ const Projects = () => {
     return () => {};
   }, []);
 
+  // Filter projects based on category and search
   useEffect(() => {
-    let filtered = projectsData;
+    let filtered = projects;
     
     if (activeCategory !== 'All') {
-      filtered = filtered.filter(project => project.category === activeCategory);
+      filtered = filtered.filter(project => {
+        const cat = project.category?.toLowerCase() || '';
+        const activeCat = activeCategory.toLowerCase();
+        return cat.includes(activeCat) || activeCat.includes(cat);
+      });
     }
     
     if (searchQuery) {
       filtered = filtered.filter(project => 
-        project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        project.techStack.some(tech => tech.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        project.creator.name.toLowerCase().includes(searchQuery.toLowerCase())
+        project.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        project.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (project.technologies || []).some(tech => tech.toLowerCase().includes(searchQuery.toLowerCase()))
       );
     }
     
     setFilteredProjects(filtered);
-  }, [activeCategory, searchQuery]);
+  }, [activeCategory, searchQuery, projects]);
 
   const openProject = (project) => {
     setSelectedProject(project);
@@ -97,8 +138,22 @@ const Projects = () => {
     }, 400);
   };
 
-  const totalProjects = projectsData.length;
-  const uniqueCreators = [...new Set(projectsData.map(p => p.creator.name))].length;
+  const totalProjects = projects.length;
+  const uniqueCreators = projects.length;
+
+  if (loading) {
+    return (
+      <section className="projects-section">
+        <Navbar />
+        <div className="projects-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
+          <div style={{ textAlign: 'center', color: '#F7D046' }}>
+            <div className="loader"></div>
+            <p style={{ marginTop: '1rem', fontFamily: 'Bebas Neue', letterSpacing: '0.1em' }}>Loading Projects...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="projects-section">
@@ -176,58 +231,64 @@ const Projects = () => {
 
         {/* Projects Grid */}
         <div className="projects-grid">
-          {filteredProjects.map((project, index) => (
-            <div
-              key={project.id}
-              className={`project-card ${isVisible ? 'visible' : ''}`}
-              style={{ animationDelay: `${index * 0.1}s` }}
-              onClick={() => openProject(project)}
-            >
-              <div className="project-image-container">
-                <img 
-                  src={project.image} 
-                  alt={project.title}
-                  className="project-image"
-                />
-                <div className="project-overlay">
-                  <div className="arrow-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M7 17L17 7M17 7H7M17 7V17"/>
-                    </svg>
+          {filteredProjects.length === 0 && !loading ? (
+            <div className="no-results">
+              <p>No projects found. Add some projects from Admin Dashboard!</p>
+            </div>
+          ) : (
+            filteredProjects.map((project, index) => (
+              <div
+                key={project._id || index}
+                className={`project-card ${isVisible ? 'visible' : ''}`}
+                style={{ animationDelay: `${index * 0.1}s` }}
+                onClick={() => openProject(project)}
+              >
+                <div className="project-image-container">
+                  <img 
+                    src={project.image || '/placeholder-project.jpg'} 
+                    alt={project.title}
+                    className="project-image"
+                  />
+                  <div className="project-overlay">
+                    <div className="arrow-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                      </svg>
+                    </div>
                   </div>
-                </div>
-                {project.featured && (
-                  <span className="featured-badge">Featured</span>
-                )}
-              </div>
-
-              <div className="project-content">
-                <h3 className="project-title">{project.title}</h3>
-                
-                <div className="project-tech-stack">
-                  {project.techStack.slice(0, 3).map((tech, i) => (
-                    <span key={i} className="tech-pill">{tech}</span>
-                  ))}
-                  {project.techStack.length > 3 && (
-                    <span className="tech-pill more">+{project.techStack.length - 3}</span>
+                  {project.isFeatured && (
+                    <span className="featured-badge">Featured</span>
                   )}
                 </div>
 
-                <div className="project-creator">
-                  <img 
-                    src={project.creator.image} 
-                    alt={project.creator.name}
-                    className="creator-image"
-                  />
-                  <span className="creator-name">{project.creator.name}</span>
+                <div className="project-content">
+                  <h3 className="project-title">{project.title}</h3>
+                  
+                  {project.creatorName && (
+                    <div className="project-creator">
+                      <span className="creator-name">By {project.creatorName}</span>
+                      {project.graduationYear && <span className="creator-year">Class of {project.graduationYear}</span>}
+                    </div>
+                  )}
+                  
+                  <div className="project-tech-stack">
+                    {(project.technologies || []).slice(0, 3).map((tech, i) => (
+                      <span key={i} className="tech-pill">{tech}</span>
+                    ))}
+                    {(project.technologies || []).length > 3 && (
+                      <span className="tech-pill more">+{project.technologies.length - 3}</span>
+                    )}
+                  </div>
+
+                  <p className="project-short-desc">{project.shortDescription || project.description?.substring(0, 100)}</p>
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
 
         {/* No Results */}
-        {filteredProjects.length === 0 && (
+        {filteredProjects.length === 0 && searchQuery && (
           <div className="no-results">
             <p>No projects found matching your criteria.</p>
             <button onClick={() => { setActiveCategory('All'); setSearchQuery(''); }}>
@@ -250,7 +311,7 @@ const Projects = () => {
             <div className="modal-content">
               <div className="modal-image-section">
                 <img 
-                  src={selectedProject.image} 
+                  src={selectedProject.image || '/placeholder-project.jpg'} 
                   alt={selectedProject.title}
                   className="modal-image"
                 />
@@ -266,16 +327,16 @@ const Projects = () => {
                 <div className="modal-tech-section">
                   <h4 className="modal-section-title">Tech Stack</h4>
                   <div className="modal-tech-stack">
-                    {selectedProject.techStack.map((tech, i) => (
+                    {(selectedProject.technologies || []).map((tech, i) => (
                       <span key={i} className="modal-tech-pill">{tech}</span>
                     ))}
                   </div>
                 </div>
 
                 <div className="modal-links">
-                  {selectedProject.liveDemo && (
+                  {selectedProject.liveUrl && (
                     <a 
-                      href={selectedProject.liveDemo} 
+                      href={selectedProject.liveUrl} 
                       target="_blank" 
                       rel="noopener noreferrer" 
                       className="modal-link demo"
@@ -288,29 +349,26 @@ const Projects = () => {
                       Live Demo
                     </a>
                   )}
-                  <a 
-                    href={selectedProject.github} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="modal-link github"
-                  >
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                    </svg>
-                    GitHub
-                  </a>
+                  {selectedProject.githubUrl && (
+                    <a 
+                      href={selectedProject.githubUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="modal-link github"
+                    >
+                      <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                      </svg>
+                      GitHub
+                    </a>
+                  )}
                 </div>
 
-                <div className="modal-creator">
-                  <img 
-                    src={selectedProject.creator.image} 
-                    alt={selectedProject.creator.name}
-                    className="modal-creator-image"
-                  />
-                  <div className="modal-creator-info">
-                    <span className="modal-creator-name">{selectedProject.creator.name}</span>
-                    <span className="modal-creator-role">{selectedProject.creator.role}</span>
-                  </div>
+                <div className="modal-status">
+                  <span className={`status-badge ${selectedProject.status}`}>
+                    {selectedProject.status === 'completed' ? '✓ Completed' : 
+                     selectedProject.status === 'in-progress' ? '🔄 In Progress' : selectedProject.status}
+                  </span>
                 </div>
               </div>
             </div>

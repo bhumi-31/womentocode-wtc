@@ -1,14 +1,19 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Auth.css';
 
+const API_URL = 'http://localhost:5001';
+
 const Login = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   const handleChange = (e) => {
     setFormData({
@@ -20,14 +25,44 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setError('');
+    setSuccess('');
     
-    // TODO: Connect to backend API
-    console.log('Login:', formData);
-    
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      const response = await fetch(`${API_URL}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        // Store token and user info
+        localStorage.setItem('token', data.data.token);
+        localStorage.setItem('user', JSON.stringify(data.data.user));
+        
+        setSuccess('Login successful! Redirecting...');
+        
+        // Redirect based on role
+        setTimeout(() => {
+          if (data.data.user.role === 'admin') {
+            navigate('/admin');
+          } else {
+            navigate('/');
+          }
+        }, 1000);
+      } else {
+        setError(data.message || 'Login failed. Please try again.');
+      }
+    } catch (err) {
+      setError('Server error. Please try again later.');
+      console.error('Login error:', err);
+    } finally {
       setIsLoading(false);
-    }, 1500);
+    }
   };
 
   return (
@@ -97,6 +132,9 @@ const Login = () => {
 
           <h2 className="form-title">WELCOME BACK</h2>
           <p className="form-subtitle">Enter your credentials to access your account</p>
+
+          {error && <div className="auth-error">{error}</div>}
+          {success && <div className="auth-success">{success}</div>}
 
           <form onSubmit={handleSubmit} className="auth-form">
             <div className="form-group">

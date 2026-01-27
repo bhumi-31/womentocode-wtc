@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import './Navbar.css'
 
 function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [user, setUser] = useState(null)
   const location = useLocation()
+  const navigate = useNavigate()
   const isHomePage = location.pathname === '/'
 
   useEffect(() => {
@@ -17,6 +19,26 @@ function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // Check for logged in user
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user')
+    if (storedUser) {
+      setUser(JSON.parse(storedUser))
+    }
+  }, [location]) // Re-check when route changes
+
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+    setUser(null)
+    navigate('/')
+  }
+
+  const handleJoinClick = (e) => {
+    e.preventDefault()
+    navigate('/signup')
+  }
+
   return (
     <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
       <div className="nav-container">
@@ -25,13 +47,23 @@ function Navbar() {
           <span className="logo-text">WomenToCode</span>
         </Link>
 
-        <a href="#join" className="nav-register-btn">
-          <span>✦</span> JOIN NOW
-        </a>
-
-        <Link to="/login" className="nav-login-btn">
-          LOGIN
-        </Link>
+        {!user ? (
+          <>
+            <button onClick={handleJoinClick} className="nav-register-btn">
+              <span>✦</span> JOIN NOW
+            </button>
+            <Link to="/login" className="nav-login-btn">
+              LOGIN
+            </Link>
+          </>
+        ) : (
+          <div className="nav-user-section">
+            <span className="nav-user-name">Hi, {user.firstName}!</span>
+            <button onClick={handleLogout} className="nav-logout-btn">
+              LOGOUT
+            </button>
+          </div>
+        )}
         
         <div className={`nav-links ${menuOpen ? 'active' : ''}`}>
           {isHomePage ? (

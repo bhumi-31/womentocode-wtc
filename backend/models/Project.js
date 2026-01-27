@@ -25,6 +25,18 @@ const projectSchema = new mongoose.Schema({
     unique: true
     // URL-friendly version of title: "E-Commerce Website" → "e-commerce-website"
   },
+  
+  // Creator Info
+  creatorName: {
+    type: String,
+    trim: true
+    // Name of the person who created the project
+  },
+  graduationYear: {
+    type: String,
+    // Year of graduation e.g., "2024"
+  },
+  
   description: {
     type: String,
     required: [true, 'Description is required']
