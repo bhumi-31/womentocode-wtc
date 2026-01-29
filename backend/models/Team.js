@@ -69,14 +69,18 @@ const teamSchema = new mongoose.Schema({
     // Personal quote or tagline
   },
   
+  // Tech Stack
+  techStack: {
+    type: String,
+    default: ''
+    // e.g., "React, Node.js, Python, MongoDB"
+  },
+  
   // Social Media Links
   social: {
     linkedin: { type: String, default: '' },
     twitter: { type: String, default: '' },
-    github: { type: String, default: '' },
-    instagram: { type: String, default: '' },
-    youtube: { type: String, default: '' },
-    dribbble: { type: String, default: '' }
+    github: { type: String, default: '' }
   },
   
   // Display Settings

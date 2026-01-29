@@ -16,21 +16,11 @@ const AdminTeam = () => {
     image: '',
     color: '#F7D046',
     quote: '',
-    stats: {
-      stat1Label: '',
-      stat1Value: '',
-      stat2Label: '',
-      stat2Value: '',
-      stat3Label: '',
-      stat3Value: ''
-    },
+    techStack: '',
     social: {
       linkedin: '',
       twitter: '',
-      github: '',
-      instagram: '',
-      youtube: '',
-      dribbble: ''
+      github: ''
     },
     order: 0,
     isActive: true
@@ -71,18 +61,6 @@ const AdminTeam = () => {
     e.preventDefault();
     const token = localStorage.getItem('token');
     
-    // Convert stats form format to object
-    const statsObject = {};
-    if (formData.stats.stat1Label && formData.stats.stat1Value) {
-      statsObject[formData.stats.stat1Label] = formData.stats.stat1Value;
-    }
-    if (formData.stats.stat2Label && formData.stats.stat2Value) {
-      statsObject[formData.stats.stat2Label] = formData.stats.stat2Value;
-    }
-    if (formData.stats.stat3Label && formData.stats.stat3Value) {
-      statsObject[formData.stats.stat3Label] = formData.stats.stat3Value;
-    }
-    
     const submitData = {
       firstName: formData.firstName,
       lastName: formData.lastName,
@@ -90,7 +68,7 @@ const AdminTeam = () => {
       image: formData.image,
       color: formData.color,
       quote: formData.quote,
-      stats: statsObject,
+      techStack: formData.techStack,
       social: formData.social,
       order: formData.order,
       isActive: formData.isActive
@@ -161,21 +139,11 @@ const AdminTeam = () => {
       image: '',
       color: '#F7D046',
       quote: '',
-      stats: {
-        stat1Label: '',
-        stat1Value: '',
-        stat2Label: '',
-        stat2Value: '',
-        stat3Label: '',
-        stat3Value: ''
-      },
+      techStack: '',
       social: {
         linkedin: '',
         twitter: '',
-        github: '',
-        instagram: '',
-        youtube: '',
-        dribbble: ''
+        github: ''
       },
       order: members.length,
       isActive: true
@@ -185,9 +153,7 @@ const AdminTeam = () => {
 
   const openEditModal = (member) => {
     setEditingMember(member);
-    // Convert stats Map to form format
-    const statsObj = member.stats || {};
-    const statsEntries = Object.entries(statsObj);
+    const socialData = member.social || member.socialLinks || {};
     
     setFormData({
       firstName: member.firstName || member.name?.split(' ')[0] || '',
@@ -196,21 +162,11 @@ const AdminTeam = () => {
       image: member.image || '',
       color: member.color || '#F7D046',
       quote: member.quote || '',
-      stats: {
-        stat1Label: statsEntries[0]?.[0] || '',
-        stat1Value: statsEntries[0]?.[1] || '',
-        stat2Label: statsEntries[1]?.[0] || '',
-        stat2Value: statsEntries[1]?.[1] || '',
-        stat3Label: statsEntries[2]?.[0] || '',
-        stat3Value: statsEntries[2]?.[1] || ''
-      },
-      social: member.social || member.socialLinks || {
-        linkedin: '',
-        twitter: '',
-        github: '',
-        instagram: '',
-        youtube: '',
-        dribbble: ''
+      techStack: member.techStack || '',
+      social: {
+        linkedin: socialData.linkedin || '',
+        twitter: socialData.twitter || '',
+        github: socialData.github || ''
       },
       order: member.order || 0,
       isActive: member.isActive !== false
@@ -373,87 +329,17 @@ const AdminTeam = () => {
                 />
               </div>
 
-              <div className="form-section-title">Stats (up to 3)</div>
-              <div className="form-row">
-                <div className="form-group">
-                  <label>Stat 1 Label</label>
-                  <input
-                    type="text"
-                    value={formData.stats.stat1Label}
-                    onChange={e => setFormData({
-                      ...formData, 
-                      stats: {...formData.stats, stat1Label: e.target.value}
-                    })}
-                    placeholder="e.g., Women Trained"
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Stat 1 Value</label>
-                  <input
-                    type="text"
-                    value={formData.stats.stat1Value}
-                    onChange={e => setFormData({
-                      ...formData, 
-                      stats: {...formData.stats, stat1Value: e.target.value}
-                    })}
-                    placeholder="e.g., 5000+"
-                  />
-                </div>
-              </div>
-              <div className="form-row">
-                <div className="form-group">
-                  <label>Stat 2 Label</label>
-                  <input
-                    type="text"
-                    value={formData.stats.stat2Label}
-                    onChange={e => setFormData({
-                      ...formData, 
-                      stats: {...formData.stats, stat2Label: e.target.value}
-                    })}
-                    placeholder="e.g., Events Hosted"
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Stat 2 Value</label>
-                  <input
-                    type="text"
-                    value={formData.stats.stat2Value}
-                    onChange={e => setFormData({
-                      ...formData, 
-                      stats: {...formData.stats, stat2Value: e.target.value}
-                    })}
-                    placeholder="e.g., 150+"
-                  />
-                </div>
-              </div>
-              <div className="form-row">
-                <div className="form-group">
-                  <label>Stat 3 Label</label>
-                  <input
-                    type="text"
-                    value={formData.stats.stat3Label}
-                    onChange={e => setFormData({
-                      ...formData, 
-                      stats: {...formData.stats, stat3Label: e.target.value}
-                    })}
-                    placeholder="e.g., Years Experience"
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Stat 3 Value</label>
-                  <input
-                    type="text"
-                    value={formData.stats.stat3Value}
-                    onChange={e => setFormData({
-                      ...formData, 
-                      stats: {...formData.stats, stat3Value: e.target.value}
-                    })}
-                    placeholder="e.g., 15+"
-                  />
-                </div>
+              <div className="form-group">
+                <label>Tech Stack</label>
+                <input
+                  type="text"
+                  value={formData.techStack}
+                  onChange={e => setFormData({...formData, techStack: e.target.value})}
+                  placeholder="e.g., React, Node.js, Python, MongoDB"
+                />
               </div>
 
-              <div className="form-section-title">Social Links</div>
+              <div className="form-section-title">Social Links (Optional)</div>
               <div className="form-row">
                 <div className="form-group">
                   <label>LinkedIn</label>
@@ -468,20 +354,6 @@ const AdminTeam = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label>Twitter</label>
-                  <input
-                    type="text"
-                    value={formData.social.twitter}
-                    onChange={e => setFormData({
-                      ...formData, 
-                      social: {...formData.social, twitter: e.target.value}
-                    })}
-                    placeholder="https://twitter.com/..."
-                  />
-                </div>
-              </div>
-              <div className="form-row">
-                <div className="form-group">
                   <label>GitHub</label>
                   <input
                     type="text"
@@ -493,44 +365,18 @@ const AdminTeam = () => {
                     placeholder="https://github.com/..."
                   />
                 </div>
-                <div className="form-group">
-                  <label>Instagram</label>
-                  <input
-                    type="text"
-                    value={formData.social.instagram}
-                    onChange={e => setFormData({
-                      ...formData, 
-                      social: {...formData.social, instagram: e.target.value}
-                    })}
-                    placeholder="https://instagram.com/..."
-                  />
-                </div>
               </div>
-              <div className="form-row">
-                <div className="form-group">
-                  <label>YouTube</label>
-                  <input
-                    type="text"
-                    value={formData.social.youtube}
-                    onChange={e => setFormData({
-                      ...formData, 
-                      social: {...formData.social, youtube: e.target.value}
-                    })}
-                    placeholder="https://youtube.com/..."
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Dribbble</label>
-                  <input
-                    type="text"
-                    value={formData.social.dribbble}
-                    onChange={e => setFormData({
-                      ...formData, 
-                      social: {...formData.social, dribbble: e.target.value}
-                    })}
-                    placeholder="https://dribbble.com/..."
-                  />
-                </div>
+              <div className="form-group">
+                <label>Twitter</label>
+                <input
+                  type="text"
+                  value={formData.social.twitter}
+                  onChange={e => setFormData({
+                    ...formData, 
+                    social: {...formData.social, twitter: e.target.value}
+                  })}
+                  placeholder="https://twitter.com/..."
+                />
               </div>
 
               <div className="form-row">
