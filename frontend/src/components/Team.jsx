@@ -233,7 +233,7 @@ function Team() {
             <h1 className="team-main-title">
               <span className="title-line">MEET THE</span>
               <span className="title-line accent">INCREDIBLE</span>
-              <span className="title-line">WOMEN</span>
+              <span className="title-line">TEAM</span>
             </h1>
             <p className="team-description">No team members found</p>
           </div>
