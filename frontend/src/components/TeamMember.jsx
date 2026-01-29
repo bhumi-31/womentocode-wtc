@@ -1,15 +1,45 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import { teamMembers } from '../data/teamData'
 import Navbar from './Navbar'
 import './TeamMember.css'
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001'
 
 function TeamMember() {
   const { memberId } = useParams()
   const navigate = useNavigate()
   const [loaded, setLoaded] = useState(false)
+  const [member, setMember] = useState(null)
+  const [allMembers, setAllMembers] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
   
-  const member = teamMembers.find(m => m.id === memberId)
+  // Fetch team members from API
+  useEffect(() => {
+    const fetchTeamMembers = async () => {
+      try {
+        setIsLoading(true)
+        const response = await fetch(`${API_URL}/team`)
+        const data = await response.json()
+        
+        let members = []
+        if (data.success && Array.isArray(data.data)) {
+          members = data.data
+        } else if (Array.isArray(data)) {
+          members = data
+        }
+        
+        setAllMembers(members)
+        const foundMember = members.find(m => m.id === memberId || m._id === memberId)
+        setMember(foundMember)
+      } catch (error) {
+        console.error('Error fetching team members:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    
+    fetchTeamMembers()
+  }, [memberId])
   
   useEffect(() => {
     // Scroll to top on mount
@@ -18,6 +48,17 @@ function TeamMember() {
     // Trigger animations
     setTimeout(() => setLoaded(true), 100)
   }, [memberId])
+
+  if (isLoading) {
+    return (
+      <div className="member-page">
+        <Navbar />
+        <div className="member-not-found">
+          <h1>Loading...</h1>
+        </div>
+      </div>
+    )
+  }
 
   if (!member) {
     return (
@@ -141,13 +182,13 @@ function TeamMember() {
       <section className="other-members-section">
         <h2 className="section-title">Meet More Team Members</h2>
         <div className="other-members-grid">
-          {teamMembers
-            .filter(m => m.id !== member.id)
+          {allMembers
+            .filter(m => (m.id || m._id) !== (member.id || member._id))
             .slice(0, 4)
             .map((otherMember) => (
               <Link 
-                to={`/team/${otherMember.id}`} 
-                key={otherMember.id}
+                to={`/team/${otherMember.id || otherMember._id}`} 
+                key={otherMember.id || otherMember._id}
                 className="other-member-card"
               >
                 <img src={otherMember.image} alt={otherMember.name} />
