@@ -6,21 +6,32 @@
 }
 
 html {
+  /* Fixed base font size for consistent rem calculations */
+  font-size: 16px;
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Prevent text size inflation on different devices */
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
   padding: 0;
   min-width: 320px;
+  /* Use dvh with vh fallback for better cross-browser height */
   min-height: 100vh;
+  min-height: 100dvh;
   background: #0a0a0a;
   color: #ffffff;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 1rem;
   line-height: 1.5;
   overflow-x: hidden;
+  /* Ensure consistent text rendering */
+  text-rendering: optimizeLegibility;
 }
 
 #root {

@@ -4,11 +4,17 @@
 .hero {
   position: relative;
   width: 100%;
+  /* Use dvh with vh fallback for consistent height across platforms */
   height: 100vh;
+  height: 100dvh;
   min-height: 700px;
+  max-height: 1200px;
+  /* Prevent excessive height on large screens */
   display: flex;
   align-items: flex-end;
   padding: 4rem;
+  padding: clamp(2rem, 4vw, 4rem);
+  /* Responsive padding */
   overflow: hidden;
 }
 
@@ -67,7 +73,8 @@
 .hero-title .title-line {
   display: block;
   font-family: var(--font-display);
-  font-size: clamp(4rem, 12vw, 10rem);
+  /* More constrained font sizing for cross-platform consistency */
+  font-size: clamp(3.5rem, 10vw, 8rem);
   font-weight: 400;
   line-height: 0.9;
   letter-spacing: 0.02em;
@@ -97,6 +104,7 @@
     opacity: 0;
     transform: translateY(60px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -120,8 +128,13 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 /* Hero Button */
@@ -215,10 +228,13 @@
 }
 
 @keyframes scrollPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
     transform: scaleY(1);
   }
+
   50% {
     opacity: 0.5;
     transform: scaleY(0.8);
@@ -230,7 +246,7 @@
   .hero-side-text {
     display: none;
   }
-  
+
   .hero-watermark span {
     font-size: 8rem;
   }
@@ -242,20 +258,20 @@
     padding-bottom: 4rem;
     align-items: flex-end;
   }
-  
+
   .title-line {
     font-size: clamp(3rem, 15vw, 5rem);
   }
-  
+
   .hero-watermark {
     right: 2rem;
     bottom: 1rem;
   }
-  
+
   .hero-watermark span {
     font-size: 5rem;
   }
-  
+
   .scroll-indicator {
     display: none;
   }
@@ -265,20 +281,20 @@
   .hero {
     padding: 1.5rem;
   }
-  
+
   .title-line {
     font-size: clamp(2.5rem, 18vw, 4rem);
   }
-  
+
   .hero-subtitle p {
     font-size: 0.85rem;
   }
-  
+
   .hero-btn {
     padding: 0.875rem 1.5rem;
     font-size: 0.7rem;
   }
-  
+
   .hero-watermark span {
     font-size: 4rem;
   }
