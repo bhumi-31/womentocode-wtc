@@ -284,8 +284,8 @@ function Team() {
                 {teamMembers.length} passionate leaders driving innovation and empowering women in tech
               </p>
 
-              {/* Navigation */}
-              <div className="team-navigation">
+              {/* Navigation - appears after title animation */}
+              <div className={`team-navigation ${titleAnimationComplete ? 'fade-in' : ''}`}>
                 <button
                   className="nav-btn prev"
                   onClick={handlePrev}
@@ -314,7 +314,7 @@ function Team() {
               </div>
 
               {/* Progress Dots */}
-              <div className="progress-dots">
+              <div className={`progress-dots ${titleAnimationComplete ? 'fade-in' : ''}`}>
                 {teamMembers.map((_, idx) => (
                   <button
                     key={idx}
@@ -326,8 +326,8 @@ function Team() {
               </div>
             </div>
 
-            {/* Right Side - Card Stack */}
-            <div className="cards-container" ref={containerRef}>
+            {/* Right Side - Card Stack - appears AFTER title animation */}
+            <div className={`cards-container ${titleAnimationComplete ? 'photos-visible' : 'photos-hidden'}`} ref={containerRef}>
               <div className="card-stack">
                 {getVisibleMembers().map((member, idx) => (
                   <div
