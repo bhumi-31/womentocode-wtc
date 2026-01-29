@@ -61,42 +61,45 @@ const Projects = () => {
 
     let charIndex = 0;
 
-    // Animate line 1
-    const animateLine1 = setInterval(() => {
-      if (charIndex < line1.length) {
-        setVisibleChars(prev => ({ ...prev, line1: charIndex + 1 }));
-        charIndex++;
-      } else {
-        clearInterval(animateLine1);
-        charIndex = 0;
+    // Start animation after 500ms delay
+    setTimeout(() => {
+      // Animate line 1
+      const animateLine1 = setInterval(() => {
+        if (charIndex < line1.length) {
+          setVisibleChars(prev => ({ ...prev, line1: charIndex + 1 }));
+          charIndex++;
+        } else {
+          clearInterval(animateLine1);
+          charIndex = 0;
 
-        // Animate line 2
-        setTimeout(() => {
-          const animateLine2 = setInterval(() => {
-            if (charIndex < line2.length) {
-              setVisibleChars(prev => ({ ...prev, line2: charIndex + 1 }));
-              charIndex++;
-            } else {
-              clearInterval(animateLine2);
-              charIndex = 0;
+          // Animate line 2
+          setTimeout(() => {
+            const animateLine2 = setInterval(() => {
+              if (charIndex < line2.length) {
+                setVisibleChars(prev => ({ ...prev, line2: charIndex + 1 }));
+                charIndex++;
+              } else {
+                clearInterval(animateLine2);
+                charIndex = 0;
 
-              // Animate line 3
-              setTimeout(() => {
-                const animateLine3 = setInterval(() => {
-                  if (charIndex < line3.length) {
-                    setVisibleChars(prev => ({ ...prev, line3: charIndex + 1 }));
-                    charIndex++;
-                  } else {
-                    clearInterval(animateLine3);
-                    setTimeout(() => setIsVisible(true), 200);
-                  }
-                }, 80);
-              }, 100);
-            }
-          }, 50);
-        }, 100);
-      }
-    }, 80);
+                // Animate line 3
+                setTimeout(() => {
+                  const animateLine3 = setInterval(() => {
+                    if (charIndex < line3.length) {
+                      setVisibleChars(prev => ({ ...prev, line3: charIndex + 1 }));
+                      charIndex++;
+                    } else {
+                      clearInterval(animateLine3);
+                      setTimeout(() => setIsVisible(true), 300);
+                    }
+                  }, 100);
+                }, 200);
+              }
+            }, 100);
+          }, 200);
+        }
+      }, 100);
+    }, 500);
 
     return () => { };
   }, []);

@@ -33,7 +33,7 @@ function Contact() {
     animationStarted.current = true;
 
     let charIndex = 0;
-    
+
     setTimeout(() => {
       const animateLine1 = setInterval(() => {
         if (charIndex < line1.length) {
@@ -42,7 +42,7 @@ function Contact() {
         } else {
           clearInterval(animateLine1);
           charIndex = 0;
-          
+
           setTimeout(() => {
             const animateLine2 = setInterval(() => {
               if (charIndex < line2.length) {
@@ -51,10 +51,10 @@ function Contact() {
               } else {
                 clearInterval(animateLine2);
               }
-            }, 50);
-          }, 100);
+            }, 100);
+          }, 200);
         }
-      }, 50);
+      }, 100);
     }, 500);
   }, [])
 
@@ -64,7 +64,7 @@ function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    
+
     try {
       const response = await fetch(`${API_URL}/contact`, {
         method: 'POST',
@@ -78,9 +78,9 @@ function Contact() {
           message: formData.message
         })
       });
-      
+
       const data = await response.json();
-      
+
       if (data.success) {
         setSubmitted(true)
         setErrorMessage('')
@@ -151,7 +151,7 @@ function Contact() {
   return (
     <div className="contact-page">
       <Navbar />
-      
+
       {/* Error Toast */}
       {errorMessage && (
         <div style={{
@@ -172,7 +172,7 @@ function Contact() {
         }}>
           <span style={{ fontSize: '1.2rem' }}>⚠️</span>
           <span style={{ fontWeight: 500 }}>{errorMessage}</span>
-          <button 
+          <button
             onClick={() => setErrorMessage('')}
             style={{
               background: 'transparent',
@@ -187,12 +187,12 @@ function Contact() {
           </button>
         </div>
       )}
-      
+
       {/* Floating Particles */}
       <div className="contact-particles">
         {[...Array(20)].map((_, i) => (
-          <div 
-            key={i} 
+          <div
+            key={i}
             className="particle"
             style={{
               '--x': `${Math.random() * 100}%`,
@@ -210,8 +210,8 @@ function Contact() {
           <h1 className="contact-title">
             <span className="line">
               {line1.split('').map((char, i) => (
-                <span 
-                  key={i} 
+                <span
+                  key={i}
                   className={`char-animate ${i < visibleChars.line1 ? 'visible' : ''}`}
                 >
                   {char === ' ' ? '\u00A0' : char}
@@ -220,8 +220,8 @@ function Contact() {
             </span>
             <span className="line gradient">
               {line2.split('').map((char, i) => (
-                <span 
-                  key={i} 
+                <span
+                  key={i}
                   className={`char-animate gradient-char ${i < visibleChars.line2 ? 'visible' : ''}`}
                 >
                   {char === ' ' ? '\u00A0' : char}
@@ -243,8 +243,8 @@ function Contact() {
           <div className="contact-info-side">
             {/* Info Cards */}
             {contactInfo.map((info, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="info-card"
                 style={{ '--delay': `${index * 0.15}s` }}
               >
@@ -264,7 +264,7 @@ function Contact() {
               <h3>Follow Us</h3>
               <div className="social-links">
                 {socialLinks.map((social, index) => (
-                  <a 
+                  <a
                     key={index}
                     href={social.url}
                     className="social-btn"
@@ -405,12 +405,12 @@ function Contact() {
 
           <div className="faq-list">
             {faqs.map((faq, index) => (
-              <div 
+              <div
                 key={index}
                 className={`faq-item ${activeAccordion === index ? 'active' : ''}`}
                 style={{ '--delay': `${index * 0.1}s` }}
               >
-                <button 
+                <button
                   className="faq-question"
                   onClick={() => setActiveAccordion(activeAccordion === index ? null : index)}
                 >
@@ -437,10 +437,10 @@ function Contact() {
               <h3>Find Us Here</h3>
               <p>Block-33, Lovely Professional University</p>
               <p className="address-detail">Jalandhar - Delhi G.T. Road, Phagwara, Punjab - 144411</p>
-              <a 
-                href="https://www.google.com/maps/dir//Block+33,+Lovely+Professional+University,+Phagwara,+Punjab+144411" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <a
+                href="https://www.google.com/maps/dir//Block+33,+Lovely+Professional+University,+Phagwara,+Punjab+144411"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="directions-btn"
               >
                 Get Directions →
