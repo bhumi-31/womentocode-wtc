@@ -420,24 +420,68 @@ const AdminEvents = () => {
                 </div>
                 <div className="form-group">
                   <label>Time *</label>
-                  <input
-                    type="time"
-                    value={formData.startTime || ''}
-                    onChange={e => {
-                      const time24 = e.target.value;
-                      const [hours, minutes] = time24.split(':');
-                      const period = hours >= 12 ? 'PM' : 'AM';
-                      const hours12 = hours % 12 || 12;
-                      const formattedTime = `${hours12}:${minutes} ${period}`;
-                      setFormData({
-                        ...formData,
-                        startTime: e.target.value,
-                        time: formattedTime
-                      });
-                    }}
-                    required
-                    style={{ colorScheme: 'dark' }}
-                  />
+                  <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                    <select
+                      value={formData.timeHour || '10'}
+                      onChange={e => {
+                        const hour = e.target.value;
+                        const minute = formData.timeMinute || '00';
+                        const period = formData.timePeriod || 'AM';
+                        setFormData({
+                          ...formData,
+                          timeHour: hour,
+                          time: `${hour}:${minute} ${period}`,
+                          startTime: `${period === 'PM' && hour !== '12' ? parseInt(hour) + 12 : hour}:${minute}`
+                        });
+                      }}
+                      style={{ flex: 1, padding: '0.75rem', background: '#1a1a1a', border: '1px solid #333', color: '#fff' }}
+                      required
+                    >
+                      {[...Array(12)].map((_, i) => (
+                        <option key={i+1} value={String(i+1).padStart(2, '0')}>{String(i+1).padStart(2, '0')}</option>
+                      ))}
+                    </select>
+                    <span style={{ color: '#F7D046', fontSize: '1.2rem' }}>:</span>
+                    <select
+                      value={formData.timeMinute || '00'}
+                      onChange={e => {
+                        const hour = formData.timeHour || '10';
+                        const minute = e.target.value;
+                        const period = formData.timePeriod || 'AM';
+                        setFormData({
+                          ...formData,
+                          timeMinute: minute,
+                          time: `${hour}:${minute} ${period}`,
+                          startTime: `${period === 'PM' && hour !== '12' ? parseInt(hour) + 12 : hour}:${minute}`
+                        });
+                      }}
+                      style={{ flex: 1, padding: '0.75rem', background: '#1a1a1a', border: '1px solid #333', color: '#fff' }}
+                      required
+                    >
+                      {['00', '15', '30', '45'].map(m => (
+                        <option key={m} value={m}>{m}</option>
+                      ))}
+                    </select>
+                    <select
+                      value={formData.timePeriod || 'AM'}
+                      onChange={e => {
+                        const hour = formData.timeHour || '10';
+                        const minute = formData.timeMinute || '00';
+                        const period = e.target.value;
+                        setFormData({
+                          ...formData,
+                          timePeriod: period,
+                          time: `${hour}:${minute} ${period}`,
+                          startTime: `${period === 'PM' && hour !== '12' ? parseInt(hour) + 12 : hour}:${minute}`
+                        });
+                      }}
+                      style={{ flex: 1, padding: '0.75rem', background: '#1a1a1a', border: '1px solid #333', color: '#F7D046', fontWeight: 'bold' }}
+                      required
+                    >
+                      <option value="AM">AM</option>
+                      <option value="PM">PM</option>
+                    </select>
+                  </div>
                 </div>
               </div>
 
