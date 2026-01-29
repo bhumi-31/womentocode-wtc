@@ -145,10 +145,26 @@ const Projects = () => {
     return (
       <section className="projects-section">
         <Navbar />
-        <div className="projects-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
-          <div style={{ textAlign: 'center', color: '#F7D046' }}>
-            <div className="loader"></div>
-            <p style={{ marginTop: '1rem', fontFamily: 'Bebas Neue', letterSpacing: '0.1em' }}>Loading Projects...</p>
+        <div className="projects-container">
+          {/* Skeleton Header */}
+          <div className="projects-header">
+            <div className="projects-header-left">
+              <div className="skeleton-label" style={{ width: '150px', height: '20px', background: 'linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.5s infinite', borderRadius: '4px', marginBottom: '1rem' }}></div>
+              <div className="skeleton-title" style={{ width: '300px', height: '60px', background: 'linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.5s infinite', borderRadius: '8px', marginBottom: '1rem' }}></div>
+            </div>
+          </div>
+          {/* Skeleton Grid */}
+          <div className="projects-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '2rem', marginTop: '3rem' }}>
+            {[1, 2, 3, 4, 5, 6].map(i => (
+              <div key={i} className="skeleton-card" style={{ background: '#111', borderRadius: '16px', overflow: 'hidden' }}>
+                <div style={{ width: '100%', height: '200px', background: 'linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.5s infinite' }}></div>
+                <div style={{ padding: '1.5rem' }}>
+                  <div style={{ width: '80%', height: '24px', background: 'linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.5s infinite', borderRadius: '4px', marginBottom: '0.75rem' }}></div>
+                  <div style={{ width: '100%', height: '16px', background: 'linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.5s infinite', borderRadius: '4px', marginBottom: '0.5rem' }}></div>
+                  <div style={{ width: '60%', height: '16px', background: 'linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.5s infinite', borderRadius: '4px' }}></div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
