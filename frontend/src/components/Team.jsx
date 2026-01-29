@@ -188,24 +188,51 @@ function Team() {
     <div className={`team-page ${expandedMember ? 'member-expanded' : ''}`}>
       <Navbar />
 
-      {/* Loading State - Skeleton Cards */}
+      {/* Loading State - Character animation + Skeleton Cards */}
       {isLoading ? (
         <section className="team-showcase">
           <div className={`team-info ${loaded ? 'visible' : ''}`}>
             <span className="team-label">OUR TEAM</span>
             <h1 className="team-main-title">
-              <span className="title-line">MEET THE</span>
-              <span className="title-line accent">INCREDIBLE</span>
-              <span className="title-line">TEAM</span>
+              <span className="title-line">
+                {'MEET THE'.split('').map((char, i) => (
+                  <span
+                    key={i}
+                    className="char-animate"
+                    style={{ animationDelay: `${0.3 + i * 0.08}s` }}
+                  >
+                    {char === ' ' ? '\u00A0' : char}
+                  </span>
+                ))}
+              </span>
+              <span className="title-line accent">
+                {'INCREDIBLE'.split('').map((char, i) => (
+                  <span
+                    key={i}
+                    className="char-animate"
+                    style={{ animationDelay: `${1.0 + i * 0.08}s` }}
+                  >
+                    {char}
+                  </span>
+                ))}
+              </span>
+              <span className="title-line">
+                {'TEAM'.split('').map((char, i) => (
+                  <span
+                    key={i}
+                    className="char-animate"
+                    style={{ animationDelay: `${1.8 + i * 0.08}s` }}
+                  >
+                    {char}
+                  </span>
+                ))}
+              </span>
             </h1>
-            <div className="skeleton-text" style={{ width: '60%', height: '20px', marginBottom: '2rem' }}></div>
-            <div className="skeleton-nav">
-              <div className="skeleton-btn"></div>
-              <div className="skeleton-counter"></div>
-              <div className="skeleton-btn"></div>
-            </div>
+            <p className={`team-description ${titleAnimationComplete ? 'fade-in' : ''}`}>
+              Loading team members...
+            </p>
           </div>
-          <div className="cards-container">
+          <div className={`cards-container ${titleAnimationComplete ? 'photos-visible' : 'photos-hidden'}`}>
             <div className="card-stack">
               {[...Array(3)].map((_, idx) => (
                 <div
