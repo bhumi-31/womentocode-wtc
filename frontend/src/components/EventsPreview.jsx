@@ -24,7 +24,7 @@ const transformEvent = (event) => {
     year: event.year || String(eventDate.getFullYear()),
     time: event.time || `${event.startTime || '10:00 AM'} - ${event.endTime || '12:00 PM'}`,
     location: event.location || event.venue || (event.isOnline ? 'Online' : 'TBA'),
-    type: event.type || (event.eventType ? event.eventType.charAt(0).toUpperCase() + event.eventType.slice(1) : 'Workshop'),
+    type: (event.type || event.eventType || 'workshop').toLowerCase(),
     speaker: event.speaker?.name ? event.speaker : {
       name: event.speakers?.[0]?.name || 'TBA',
       role: event.speakers?.[0]?.title || '',

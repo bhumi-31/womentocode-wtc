@@ -141,8 +141,19 @@ const Projects = () => {
   const totalProjects = projects.length;
   const uniqueCreators = projects.length;
 
-  const totalProjects = projects.length;
-  const uniqueCreators = projects.length;
+  if (loading) {
+    return (
+      <section className="projects-section">
+        <Navbar />
+        <div className="projects-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
+          <div style={{ textAlign: 'center', color: '#F7D046' }}>
+            <div className="loader"></div>
+            <p style={{ marginTop: '1rem', fontFamily: 'Bebas Neue', letterSpacing: '0.1em' }}>Loading Projects...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="projects-section">
