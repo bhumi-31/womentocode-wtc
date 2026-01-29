@@ -67,6 +67,27 @@ function Events() {
   const [events, setEvents] = useState([])
   const [loading, setLoading] = useState(true)
 
+  // Helper function to parse event date for sorting
+  const parseEventDate = (event) => {
+    const months = {
+      'JAN': 0, 'FEB': 1, 'MAR': 2, 'APR': 3, 'MAY': 4, 'JUN': 5,
+      'JUL': 6, 'AUG': 7, 'SEP': 8, 'OCT': 9, 'NOV': 10, 'DEC': 11
+    };
+    const year = parseInt(event.year) || new Date().getFullYear();
+    const month = months[event.month?.toUpperCase()] ?? 0;
+    const day = parseInt(event.date) || 1;
+    return new Date(year, month, day);
+  };
+
+  // Sort events by date (nearest first)
+  const sortEventsByDate = (eventsToSort) => {
+    return [...eventsToSort].sort((a, b) => {
+      const dateA = parseEventDate(a);
+      const dateB = parseEventDate(b);
+      return dateA - dateB; // Ascending order (nearest date first)
+    });
+  };
+
   // Fetch events from API
   useEffect(() => {
     const fetchEvents = async () => {
@@ -75,12 +96,14 @@ function Events() {
         const data = await response.json();
 
         if (data.success && Array.isArray(data.data) && data.data.length > 0) {
-          // Transform events to match frontend format
+          // Transform and sort events
           const transformedEvents = data.data.map(transformEvent);
-          setEvents(transformedEvents);
+          const sortedEvents = sortEventsByDate(transformedEvents);
+          setEvents(sortedEvents);
         } else if (Array.isArray(data) && data.length > 0) {
           const transformedEvents = data.map(transformEvent);
-          setEvents(transformedEvents);
+          const sortedEvents = sortEventsByDate(transformedEvents);
+          setEvents(sortedEvents);
         }
       } catch (error) {
         console.error('Error fetching events:', error);
