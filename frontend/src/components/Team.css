@@ -674,6 +674,45 @@
   color: rgba(10, 10, 10, 0.6);
 }
 
+/* Tech Stack Section */
+.tech-stack-section {
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(10, 10, 10, 0.1);
+}
+
+.tech-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(10, 10, 10, 0.5);
+  display: block;
+  margin-bottom: 10px;
+}
+
+.tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tech-tag {
+  background: rgba(10, 10, 10, 0.08);
+  color: #0a0a0a;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.tech-tag:hover {
+  background: #0a0a0a;
+  color: var(--member-color, #F7D046);
+}
+
+.member-bio,
 .member-quote {
   font-size: 0.95rem;
   font-style: italic;

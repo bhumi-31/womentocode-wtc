@@ -7,16 +7,6 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
 
 // Helper function to transform API member data to match frontend format
 const transformMember = (member) => {
-  // If member already has the expected format, use it
-  if (member.firstName && member.stats && member.color) {
-    // Convert stats Map to object if needed
-    const stats = member.stats instanceof Map 
-      ? Object.fromEntries(member.stats) 
-      : (typeof member.stats === 'object' ? member.stats : {});
-    return { ...member, stats };
-  }
-  
-  // Transform from old backend format to frontend format
   return {
     ...member,
     id: member.id || member._id || member.name?.toLowerCase().replace(/\s+/g, '-'),
@@ -26,9 +16,8 @@ const transformMember = (member) => {
     role: member.role || 'Team Member',
     image: member.image || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&h=800&fit=crop',
     color: member.color || '#F7D046',
-    stats: member.stats instanceof Map 
-      ? Object.fromEntries(member.stats) 
-      : (typeof member.stats === 'object' ? member.stats : {}),
+    techStack: member.techStack || '',
+    bio: member.bio || member.quote || '',
     quote: member.quote || member.bio || '',
     social: member.social || member.socialLinks || {}
   };
@@ -370,15 +359,20 @@ function Team() {
                 <div className="stats-header">
                   <span className="stats-role">{expandedMember.role}</span>
                 </div>
-                <div className="stats-grid">
-                  {Object.entries(expandedMember.stats).map(([key, value], idx) => (
-                    <div className="stat-item" key={key} style={{ '--delay': `${idx * 0.1}s` }}>
-                      <span className="stat-value">{value}</span>
-                      <span className="stat-label">{formatStatKey(key)}</span>
+                
+                {/* Tech Stack */}
+                {expandedMember.techStack && (
+                  <div className="tech-stack-section">
+                    <span className="tech-label">Tech Stack</span>
+                    <div className="tech-tags">
+                      {expandedMember.techStack.split(',').map((tech, idx) => (
+                        <span key={idx} className="tech-tag">{tech.trim()}</span>
+                      ))}
                     </div>
-                  ))}
-                </div>
-                <p className="member-quote">"{expandedMember.quote}"</p>
+                  </div>
+                )}
+                
+                <p className="member-bio">"{expandedMember.bio || expandedMember.quote}"</p></p>
                 
                 {/* Social Links */}
                 <div className="expanded-social">

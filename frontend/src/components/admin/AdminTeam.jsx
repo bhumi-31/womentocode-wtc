@@ -320,12 +320,13 @@ const AdminTeam = () => {
               </div>
 
               <div className="form-group">
-                <label>Quote/Tagline</label>
-                <input
-                  type="text"
+                <label>Bio</label>
+                <textarea
                   value={formData.quote}
                   onChange={e => setFormData({...formData, quote: e.target.value})}
-                  placeholder="A personal quote or tagline..."
+                  placeholder="Write a short bio about this team member..."
+                  rows="4"
+                  style={{ resize: 'vertical' }}
                 />
               </div>
 

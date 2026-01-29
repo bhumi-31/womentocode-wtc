@@ -54,19 +54,17 @@ const teamSchema = new mongoose.Schema({
     // Hex color code for card accent
   },
   
-  // Stats - flexible object for different stats per member
-  stats: {
-    type: Map,
-    of: String,
-    default: {}
-    // e.g., { womenTrained: '5000+', eventsHosted: '150+', yearsExp: '15+' }
-  },
-  
-  // Quote/Tagline
+  // Bio (previously quote/tagline)
   quote: {
     type: String,
     default: ''
-    // Personal quote or tagline
+    // Member's bio description
+  },
+  
+  // Bio alias (same as quote)
+  bio: {
+    type: String,
+    default: ''
   },
   
   // Tech Stack
