@@ -269,7 +269,7 @@ function Team() {
                   ))}
                 </span>
                 <span className="title-line">
-                  {'WOMEN'.split('').map((char, i) => (
+                  {'TEAM'.split('').map((char, i) => (
                     <span
                       key={i}
                       className="char-animate"
