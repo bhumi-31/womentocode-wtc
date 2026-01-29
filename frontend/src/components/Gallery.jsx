@@ -13,59 +13,55 @@ const chunkArray = (arr, size) => {
   return chunks;
 };
 
-// Component for a single Bento Row
-const BentoRow = ({ images, rowIndex, animationStage, isFirstRow }) => {
-  // Show items when stage >= 2
-  const showItems = animationStage >= 2;
-
+// Component for a single Bento Row - Clean fade-in
+const BentoRow = ({ images, rowIndex }) => {
   // Get image URL safely
   const getImageUrl = (img) => img?.image || img?.src || '';
   const getImageAlt = (img) => img?.title || img?.alt || 'Gallery image';
 
-  // If not enough images for a complete row, render partial
   if (!images || images.length === 0) return null;
 
   return (
-    <div className={`gallery-grid ${!isFirstRow ? 'additional-row' : ''} ${showItems ? 'visible' : ''}`}>
-      {/* Main Center Image (index 0) */}
+    <div className="gallery-grid fade-in" style={{ animationDelay: `${rowIndex * 0.1}s` }}>
+      {/* Main Center Image */}
       {images[0] && (
-        <div className={`gallery-item main-image ${showItems ? 'visible' : ''}`}>
+        <div className="gallery-item main-image">
           <img src={getImageUrl(images[0])} alt={getImageAlt(images[0])} loading="eager" />
         </div>
       )}
 
-      {/* Left Column (index 1, 2) */}
+      {/* Left Column */}
       {images[1] && (
-        <div className={`gallery-item left-top ${showItems ? 'visible' : ''}`} style={{animationDelay: '0.05s'}}>
+        <div className="gallery-item left-top">
           <img src={getImageUrl(images[1])} alt={getImageAlt(images[1])} loading="eager" />
         </div>
       )}
       {images[2] && (
-        <div className={`gallery-item left-bottom ${showItems ? 'visible' : ''}`} style={{animationDelay: '0.1s'}}>
+        <div className="gallery-item left-bottom">
           <img src={getImageUrl(images[2])} alt={getImageAlt(images[2])} loading="eager" />
         </div>
       )}
 
-      {/* Right Column (index 3, 4) */}
+      {/* Right Column */}
       {images[3] && (
-        <div className={`gallery-item right-top ${showItems ? 'visible' : ''}`} style={{animationDelay: '0.05s'}}>
+        <div className="gallery-item right-top">
           <img src={getImageUrl(images[3])} alt={getImageAlt(images[3])} loading="eager" />
         </div>
       )}
       {images[4] && (
-        <div className={`gallery-item right-bottom ${showItems ? 'visible' : ''}`} style={{animationDelay: '0.1s'}}>
+        <div className="gallery-item right-bottom">
           <img src={getImageUrl(images[4])} alt={getImageAlt(images[4])} loading="eager" />
         </div>
       )}
 
-      {/* Bottom Row (index 5, 6) */}
+      {/* Bottom Row */}
       {images[5] && (
-        <div className={`gallery-item bottom-left ${showItems ? 'visible' : ''}`} style={{animationDelay: '0.15s'}}>
+        <div className="gallery-item bottom-left">
           <img src={getImageUrl(images[5])} alt={getImageAlt(images[5])} loading="lazy" />
         </div>
       )}
       {images[6] && (
-        <div className={`gallery-item bottom-right ${showItems ? 'visible' : ''}`} style={{animationDelay: '0.15s'}}>
+        <div className="gallery-item bottom-right">
           <img src={getImageUrl(images[6])} alt={getImageAlt(images[6])} loading="lazy" />
         </div>
       )}
@@ -75,15 +71,10 @@ const BentoRow = ({ images, rowIndex, animationStage, isFirstRow }) => {
 
 const Gallery = () => {
   const [galleryImages, setGalleryImages] = useState([]);
-  const [animationStage, setAnimationStage] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  // Stage 0: Initial
-  // Stage 1: Main image appears
-  // Stage 2: Grid visible
-  // Stage 3: All complete
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    // Fetch gallery images from backend
     const fetchImages = async () => {
       try {
         setIsLoading(true);
@@ -96,31 +87,11 @@ const Gallery = () => {
         console.error('Error fetching gallery:', error);
       } finally {
         setIsLoading(false);
+        // Trigger fade-in after images loaded
+        setTimeout(() => setIsLoaded(true), 50);
       }
     };
     fetchImages();
-
-    // Fast animation sequence
-    // Stage 0 -> 1: Quick start
-    const timer1 = setTimeout(() => {
-      setAnimationStage(1);
-    }, 100);
-
-    // Stage 1 -> 2: Show grid
-    const timer2 = setTimeout(() => {
-      setAnimationStage(2);
-    }, 400);
-
-    // Stage 2 -> 3: Complete
-    const timer3 = setTimeout(() => {
-      setAnimationStage(3);
-    }, 800);
-
-    return () => {
-      clearTimeout(timer1);
-      clearTimeout(timer2);
-      clearTimeout(timer3);
-    };
   }, []);
 
   // Split images into rows of 7
@@ -140,14 +111,12 @@ const Gallery = () => {
   );
 
   return (
-    <section className={`gallery-section stage-${animationStage}`}>
-      {/* Navbar - shows immediately */}
+    <section className="gallery-section">
       <Navbar />
 
-      {/* Gallery Container */}
       <div className="gallery-container">
-        {/* Header - shows quickly */}
-        <div className={`gallery-header ${animationStage >= 1 ? 'visible' : ''}`}>
+        {/* Header */}
+        <div className={`gallery-header ${isLoaded ? 'visible' : ''}`}>
           <span className="gallery-label">── OUR GALLERY</span>
           <h1 className="gallery-title">
             <span className="title-line">MOMENTS OF</span>
@@ -163,21 +132,19 @@ const Gallery = () => {
             <p>No images yet. Add some from Admin Dashboard!</p>
           </div>
         ) : (
-          /* Render all Bento Rows */
+          /* Bento Grid Rows */
           imageRows.map((rowImages, index) => (
             <BentoRow 
               key={index}
               images={rowImages}
               rowIndex={index}
-              animationStage={animationStage}
-              isFirstRow={index === 0}
             />
           ))
         )}
 
         {/* Image Count */}
-        {animationStage >= 2 && galleryImages.length > 0 && (
-          <div className="gallery-count">
+        {!isLoading && galleryImages.length > 0 && (
+          <div className={`gallery-count ${isLoaded ? 'visible' : ''}`}>
             <span>{galleryImages.length} MOMENTS CAPTURED</span>
           </div>
         )}
