@@ -43,7 +43,6 @@ function Navbar() {
     <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
       <div className="nav-container">
         <Link to="/" className="logo">
-          <span className="logo-icon">W</span>
           <span className="logo-text">WomenToCode</span>
         </Link>
 
