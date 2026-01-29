@@ -372,7 +372,7 @@ function Team() {
                   </div>
                 )}
                 
-                <p className="member-bio">"{expandedMember.bio || expandedMember.quote}"</p></p>
+                <p className="member-bio">"{expandedMember.bio || expandedMember.quote}"</p>
                 
                 {/* Social Links */}
                 <div className="expanded-social">
