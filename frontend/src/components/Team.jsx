@@ -1,9 +1,36 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from './Navbar'
 import './Team.css'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+
+// Typewriter Text Component - types character by character
+const TypewriterText = ({ text, delay = 0, speed = 80, onComplete }) => {
+  const [displayedText, setDisplayedText] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [started, setStarted] = useState(false);
+
+  useEffect(() => {
+    const startTimer = setTimeout(() => setStarted(true), delay);
+    return () => clearTimeout(startTimer);
+  }, [delay]);
+
+  useEffect(() => {
+    if (!started) return;
+    if (currentIndex < text.length) {
+      const timer = setTimeout(() => {
+        setDisplayedText(prev => prev + text[currentIndex]);
+        setCurrentIndex(prev => prev + 1);
+      }, speed);
+      return () => clearTimeout(timer);
+    } else {
+      if (onComplete) onComplete();
+    }
+  }, [currentIndex, text, speed, started, onComplete]);
+
+  return <>{displayedText}</>;
+};
 
 // Helper function to transform API member data to match frontend format
 const transformMember = (member) => {
@@ -43,6 +70,8 @@ function Team() {
   const [isLoading, setIsLoading] = useState(true)
   const [imagesPreloaded, setImagesPreloaded] = useState(false)
   const [titleAnimationComplete, setTitleAnimationComplete] = useState(false)
+  const [line1Done, setLine1Done] = useState(false)
+  const [line2Done, setLine2Done] = useState(false)
   const containerRef = useRef(null)
   const hoverTimeoutRef = useRef(null)
   const navigate = useNavigate()
@@ -188,49 +217,46 @@ function Team() {
     <div className={`team-page ${expandedMember ? 'member-expanded' : ''}`}>
       <Navbar />
 
-      {/* Loading State - Character animation + Skeleton Cards */}
+      {/* Loading State - Typewriter heading + Skeleton Cards */}
       {isLoading ? (
         <section className="team-showcase">
           <div className={`team-info ${loaded ? 'visible' : ''}`}>
             <span className="team-label">OUR TEAM</span>
             <h1 className="team-main-title">
               <span className="title-line">
-                {'MEET THE'.split('').map((char, i) => (
-                  <span
-                    key={i}
-                    className="char-animate"
-                    style={{ animationDelay: `${0.3 + i * 0.08}s` }}
-                  >
-                    {char === ' ' ? '\u00A0' : char}
-                  </span>
-                ))}
+                <TypewriterText
+                  text="MEET THE"
+                  delay={300}
+                  speed={80}
+                  onComplete={() => setLine1Done(true)}
+                />
               </span>
-              <span className="title-line accent">
-                {'INCREDIBLE'.split('').map((char, i) => (
-                  <span
-                    key={i}
-                    className="char-animate"
-                    style={{ animationDelay: `${1.0 + i * 0.08}s` }}
-                  >
-                    {char}
-                  </span>
-                ))}
-              </span>
-              <span className="title-line">
-                {'TEAM'.split('').map((char, i) => (
-                  <span
-                    key={i}
-                    className="char-animate"
-                    style={{ animationDelay: `${1.8 + i * 0.08}s` }}
-                  >
-                    {char}
-                  </span>
-                ))}
-              </span>
+              {line1Done && (
+                <span className="title-line accent">
+                  <TypewriterText
+                    text="INCREDIBLE"
+                    delay={100}
+                    speed={70}
+                    onComplete={() => setLine2Done(true)}
+                  />
+                </span>
+              )}
+              {line2Done && (
+                <span className="title-line">
+                  <TypewriterText
+                    text="TEAM"
+                    delay={100}
+                    speed={80}
+                    onComplete={() => setTitleAnimationComplete(true)}
+                  />
+                </span>
+              )}
             </h1>
-            <p className={`team-description ${titleAnimationComplete ? 'fade-in' : ''}`}>
-              Loading team members...
-            </p>
+            {titleAnimationComplete && (
+              <p className="team-description fade-in">
+                Loading team members...
+              </p>
+            )}
           </div>
           <div className={`cards-container ${titleAnimationComplete ? 'photos-visible' : 'photos-hidden'}`}>
             <div className="card-stack">
@@ -273,41 +299,11 @@ function Team() {
             <div className={`team-info ${loaded ? 'visible' : ''}`}>
               <span className="team-label">OUR TEAM</span>
               <h1 className="team-main-title">
-                <span className="title-line">
-                  {'MEET THE'.split('').map((char, i) => (
-                    <span
-                      key={i}
-                      className="char-animate"
-                      style={{ animationDelay: `${0.3 + i * 0.08}s` }}
-                    >
-                      {char === ' ' ? '\u00A0' : char}
-                    </span>
-                  ))}
-                </span>
-                <span className="title-line accent">
-                  {'INCREDIBLE'.split('').map((char, i) => (
-                    <span
-                      key={i}
-                      className="char-animate"
-                      style={{ animationDelay: `${1.0 + i * 0.08}s` }}
-                    >
-                      {char}
-                    </span>
-                  ))}
-                </span>
-                <span className="title-line">
-                  {'TEAM'.split('').map((char, i) => (
-                    <span
-                      key={i}
-                      className="char-animate"
-                      style={{ animationDelay: `${1.8 + i * 0.08}s` }}
-                    >
-                      {char}
-                    </span>
-                  ))}
-                </span>
+                <span className="title-line">MEET THE</span>
+                <span className="title-line accent">INCREDIBLE</span>
+                <span className="title-line">TEAM</span>
               </h1>
-              <p className={`team-description ${titleAnimationComplete ? 'fade-in' : ''}`}>
+              <p className="team-description fade-in">
                 {teamMembers.length} passionate leaders driving innovation and empowering women in tech
               </p>
 
