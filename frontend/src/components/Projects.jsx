@@ -141,22 +141,67 @@ const Projects = () => {
   const totalProjects = projects.length;
   const uniqueCreators = projects.length;
 
-  if (loading) {
-    return (
-      <section className="projects-section">
-        <Navbar />
-        <div className="projects-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
-          <div style={{ textAlign: 'center', color: '#F7D046' }}>
-            <div className="loader"></div>
-            <p style={{ marginTop: '1rem', fontFamily: 'Bebas Neue', letterSpacing: '0.1em' }}>Loading Projects...</p>
-          </div>
+  // Skeleton Card Component
+  const SkeletonCard = ({ index }) => (
+    <div 
+      className="project-card skeleton-card" 
+      style={{ 
+        animationDelay: `${index * 0.1}s`,
+        background: '#111',
+        borderRadius: '16px',
+        overflow: 'hidden'
+      }}
+    >
+      <div style={{ 
+        width: '100%', 
+        height: '200px', 
+        background: 'linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%)', 
+        backgroundSize: '200% 100%', 
+        animation: 'shimmer 1.5s infinite' 
+      }}></div>
+      <div style={{ padding: '1.5rem' }}>
+        <div style={{ 
+          width: '80%', 
+          height: '24px', 
+          background: 'linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%)', 
+          backgroundSize: '200% 100%', 
+          animation: 'shimmer 1.5s infinite', 
+          borderRadius: '4px', 
+          marginBottom: '0.75rem' 
+        }}></div>
+        <div style={{ 
+          width: '60%', 
+          height: '16px', 
+          background: 'linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%)', 
+          backgroundSize: '200% 100%', 
+          animation: 'shimmer 1.5s infinite', 
+          borderRadius: '4px', 
+          marginBottom: '1rem' 
+        }}></div>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          {[1, 2, 3].map(i => (
+            <div key={i} style={{ 
+              width: '60px', 
+              height: '24px', 
+              background: 'linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%)', 
+              backgroundSize: '200% 100%', 
+              animation: 'shimmer 1.5s infinite', 
+              borderRadius: '12px' 
+            }}></div>
+          ))}
         </div>
-      </section>
-    );
-  }
+      </div>
+    </div>
+  );
 
   return (
     <section className="projects-section">
+      <style>{`
+        @keyframes shimmer {
+          0% { background-position: 200% 0; }
+          100% { background-position: -200% 0; }
+        }
+      `}</style>
       <Navbar />
       <div className="projects-container">
         {/* Header */}
@@ -231,7 +276,12 @@ const Projects = () => {
 
         {/* Projects Grid */}
         <div className="projects-grid">
-          {filteredProjects.length === 0 && !loading ? (
+          {loading ? (
+            // Show skeleton cards while loading
+            [...Array(6)].map((_, index) => (
+              <SkeletonCard key={index} index={index} />
+            ))
+          ) : filteredProjects.length === 0 ? (
             <div className="no-results">
               <p>No projects found. Add some projects from Admin Dashboard!</p>
             </div>
