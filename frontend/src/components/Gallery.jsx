@@ -4,26 +4,6 @@ import './Gallery.css';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
 
-// Fallback images (14 for demo - 2 rows)
-const defaultImages = [
-  // Row 1
-  { id: 1, image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=600&fit=crop", title: "Woman coding at desk" },
-  { id: 2, image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&h=500&fit=crop", title: "Professional woman developer" },
-  { id: 3, image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=300&fit=crop", title: "Woman in tech" },
-  { id: 4, image: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&h=400&fit=crop", title: "Coding workshop" },
-  { id: 5, image: "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=400&h=500&fit=crop", title: "Woman at hackathon" },
-  { id: 6, image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&h=300&fit=crop", title: "Team collaboration" },
-  { id: 7, image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=300&fit=crop", title: "Mentoring session" },
-  // Row 2
-  { id: 8, image: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&h=600&fit=crop", title: "Team meeting" },
-  { id: 9, image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=500&fit=crop", title: "Group discussion" },
-  { id: 10, image: "https://images.unsplash.com/photo-1543269865-cbf427effbad?w=400&h=300&fit=crop", title: "Friends coding" },
-  { id: 11, image: "https://images.unsplash.com/photo-1573164713988-8665fc963095?w=400&h=400&fit=crop", title: "Tech talk" },
-  { id: 12, image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=500&fit=crop", title: "Developer at work" },
-  { id: 13, image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=400&h=300&fit=crop", title: "Workshop session" },
-  { id: 14, image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=300&fit=crop", title: "Brainstorming" }
-];
-
 // Helper: Split images into chunks of 7 for bento rows
 const chunkArray = (arr, size) => {
   const chunks = [];
@@ -95,8 +75,9 @@ const BentoRow = ({ images, rowIndex, animationStage, isFirstRow }) => {
 };
 
 const Gallery = () => {
-  const [galleryImages, setGalleryImages] = useState(defaultImages);
+  const [galleryImages, setGalleryImages] = useState([]);
   const [animationStage, setAnimationStage] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
   // Stage 0: Black screen
   // Stage 1: Main image appears (large)
   // Stage 2: Main image shrinks
@@ -107,6 +88,7 @@ const Gallery = () => {
     // Fetch gallery images from backend
     const fetchImages = async () => {
       try {
+        setIsLoading(true);
         const response = await fetch(`${API_URL}/gallery`);
         const data = await response.json();
         if (data.success && data.data && data.data.length > 0) {
@@ -115,6 +97,8 @@ const Gallery = () => {
         }
       } catch (error) {
         console.error('Error fetching gallery:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchImages();

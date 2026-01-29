@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { eventsData as fallbackEvents } from '../data/eventsData'
 import Navbar from './Navbar'
 import './Events.css'
 
@@ -56,14 +55,9 @@ function Events() {
         } else if (Array.isArray(data) && data.length > 0) {
           const transformedEvents = data.map(transformEvent);
           setEvents(transformedEvents);
-        } else {
-          // Fallback to static data if no events from API
-          setEvents(fallbackEvents);
         }
       } catch (error) {
         console.error('Error fetching events:', error);
-        // Fallback to static data on error
-        setEvents(fallbackEvents);
       } finally {
         setLoading(false);
       }

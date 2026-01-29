@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { eventsData as fallbackEvents } from '../data/eventsData'
 import './EventsPreview.css'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
@@ -39,13 +38,15 @@ function EventsPreview() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [isVisible, setIsVisible] = useState(false)
   const [isAnimating, setIsAnimating] = useState(false)
-  const [events, setEvents] = useState(fallbackEvents)
+  const [events, setEvents] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
   const sectionRef = useRef(null)
 
   // Fetch events from API
   useEffect(() => {
     const fetchEvents = async () => {
       try {
+        setIsLoading(true);
         const response = await fetch(`${API_URL}/events`);
         const data = await response.json();
         
@@ -56,10 +57,10 @@ function EventsPreview() {
           const transformedEvents = data.map(transformEvent);
           setEvents(transformedEvents);
         }
-        // Keep fallback if no events
       } catch (error) {
         console.error('Error fetching events:', error);
-        // Keep fallback events on error
+      } finally {
+        setIsLoading(false);
       }
     };
     

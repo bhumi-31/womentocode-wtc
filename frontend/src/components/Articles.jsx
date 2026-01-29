@@ -1,14 +1,16 @@
 import { useState, useEffect, useRef } from 'react';
-import { articlesData as defaultArticles, categories } from '../data/articlesData';
 import Navbar from './Navbar';
 import './Articles.css';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
 
+const categories = ['All', 'Career', 'Tech', 'Community', 'Leadership', 'Tutorial'];
+
 const Articles = () => {
-  const [articles, setArticles] = useState(defaultArticles);
+  const [articles, setArticles] = useState([]);
   const [activeCategory, setActiveCategory] = useState('All');
-  const [filteredArticles, setFilteredArticles] = useState(defaultArticles);
+  const [filteredArticles, setFilteredArticles] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [visibleChars, setVisibleChars] = useState({ line1: 0, line2: 0 });
   const [isVisible, setIsVisible] = useState(false);
   const animationStarted = useRef(false);
@@ -20,6 +22,7 @@ const Articles = () => {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
+        setIsLoading(true);
         const response = await fetch(`${API_URL}/articles`);
         const data = await response.json();
         if (data.success && data.data && data.data.length > 0) {
@@ -44,10 +47,12 @@ const Articles = () => {
         }
       } catch (error) {
         console.error('Error fetching articles:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchArticles();
-  }, []);
+  }, [];
 
   // Character animation
   useEffect(() => {
