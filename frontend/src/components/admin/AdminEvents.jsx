@@ -447,7 +447,7 @@ const AdminEvents = () => {
                       style={{ flex: 1, padding: '0.75rem', background: '#1a1a1a', border: '1px solid #333', color: '#fff' }}
                       required
                     >
-                      <option value="TBA">TBA</option>
+                      <option value="TBA">To Be Announced</option>
                       {[...Array(12)].map((_, i) => (
                         <option key={i+1} value={String(i+1).padStart(2, '0')}>{String(i+1).padStart(2, '0')}</option>
                       ))}
