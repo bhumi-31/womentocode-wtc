@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001'
+import { API_URL } from '../../config'
 
 function AdminMembership() {
   const [applications, setApplications] = useState([])
@@ -47,7 +47,7 @@ function AdminMembership() {
       })
       const data = await response.json()
       if (data.success) {
-        setApplications(prev => 
+        setApplications(prev =>
           prev.map(app => app._id === id ? { ...app, status } : app)
         )
       }
@@ -58,7 +58,7 @@ function AdminMembership() {
 
   const deleteApplication = async (id) => {
     if (!window.confirm('Are you sure you want to delete this application?')) return
-    
+
     try {
       const token = localStorage.getItem('token')
       const response = await fetch(`${API_URL}/membership/${id}`, {
@@ -129,7 +129,7 @@ function AdminMembership() {
   })
 
   const getStatusColor = (status) => {
-    switch(status) {
+    switch (status) {
       case 'approved': return '#22c55e'
       case 'rejected': return '#ef4444'
       default: return '#F7D046'
@@ -156,26 +156,26 @@ function AdminMembership() {
       <div className="admin-header">
         <h1>Membership Applications</h1>
         <div className="filter-tabs">
-          <button 
-            className={filter === 'all' ? 'active' : ''} 
+          <button
+            className={filter === 'all' ? 'active' : ''}
             onClick={() => setFilter('all')}
           >
             All ({applications.length})
           </button>
-          <button 
-            className={filter === 'pending' ? 'active' : ''} 
+          <button
+            className={filter === 'pending' ? 'active' : ''}
             onClick={() => setFilter('pending')}
           >
             Pending ({applications.filter(a => a.status === 'pending').length})
           </button>
-          <button 
-            className={filter === 'approved' ? 'active' : ''} 
+          <button
+            className={filter === 'approved' ? 'active' : ''}
             onClick={() => setFilter('approved')}
           >
             Approved ({applications.filter(a => a.status === 'approved').length})
           </button>
-          <button 
-            className={filter === 'rejected' ? 'active' : ''} 
+          <button
+            className={filter === 'rejected' ? 'active' : ''}
             onClick={() => setFilter('rejected')}
           >
             Rejected ({applications.filter(a => a.status === 'rejected').length})
@@ -196,7 +196,7 @@ function AdminMembership() {
                   <h3>{app.name}</h3>
                   <span className="domain-badge">{getDomainLabel(app.domain)}</span>
                 </div>
-                <span 
+                <span
                   className="status-badge"
                   style={{ backgroundColor: getStatusColor(app.status) }}
                 >
@@ -230,13 +230,13 @@ function AdminMembership() {
               <div className="card-actions">
                 {app.status === 'pending' && (
                   <>
-                    <button 
+                    <button
                       className="btn-approve"
                       onClick={() => updateStatus(app._id, 'approved')}
                     >
                       Approve
                     </button>
-                    <button 
+                    <button
                       className="btn-reject"
                       onClick={() => updateStatus(app._id, 'rejected')}
                     >
@@ -244,7 +244,7 @@ function AdminMembership() {
                     </button>
                   </>
                 )}
-                <button 
+                <button
                   className="btn-reply"
                   onClick={() => openReplyModal(app)}
                 >
@@ -254,7 +254,7 @@ function AdminMembership() {
                   </svg>
                   Reply
                 </button>
-                <button 
+                <button
                   className="btn-delete"
                   onClick={() => deleteApplication(app._id)}
                 >
@@ -302,8 +302,8 @@ function AdminMembership() {
               <button className="btn-cancel" onClick={() => setShowReplyModal(false)}>
                 Cancel
               </button>
-              <button 
-                className="btn-send" 
+              <button
+                className="btn-send"
                 onClick={sendReply}
                 disabled={sending}
               >

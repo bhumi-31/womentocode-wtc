@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+import { API_URL } from '../../config';
 
 const AdminTeam = () => {
   const [members, setMembers] = useState([]);
@@ -39,7 +39,7 @@ const AdminTeam = () => {
     try {
       const response = await fetch(`${API_URL}/team`);
       const data = await response.json();
-      
+
       if (Array.isArray(data)) {
         setMembers(data);
       } else if (data.success && Array.isArray(data.data)) {
@@ -60,7 +60,7 @@ const AdminTeam = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
-    
+
     const submitData = {
       firstName: formData.firstName,
       lastName: formData.lastName,
@@ -73,12 +73,12 @@ const AdminTeam = () => {
       order: formData.order,
       isActive: formData.isActive
     };
-    
+
     try {
-      const url = editingMember 
+      const url = editingMember
         ? `${API_URL}/team/${editingMember._id}`
         : `${API_URL}/team`;
-      
+
       const response = await fetch(url, {
         method: editingMember ? 'PUT' : 'POST',
         headers: {
@@ -87,9 +87,9 @@ const AdminTeam = () => {
         },
         body: JSON.stringify(submitData)
       });
-      
+
       const data = await response.json();
-      
+
       if (response.ok) {
         showNotification(editingMember ? 'Member updated successfully!' : 'Member added successfully!', 'success');
         fetchMembers();
@@ -105,13 +105,13 @@ const AdminTeam = () => {
 
   const handleDelete = async (id) => {
     const token = localStorage.getItem('token');
-    
+
     try {
       const response = await fetch(`${API_URL}/team/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
-      
+
       if (response.ok) {
         showNotification('Member deleted successfully!', 'success');
         fetchMembers();
@@ -154,7 +154,7 @@ const AdminTeam = () => {
   const openEditModal = (member) => {
     setEditingMember(member);
     const socialData = member.social || member.socialLinks || {};
-    
+
     setFormData({
       firstName: member.firstName || member.name?.split(' ')[0] || '',
       lastName: member.lastName || member.name?.split(' ').slice(1).join(' ') || '',
@@ -259,7 +259,7 @@ const AdminTeam = () => {
                   <input
                     type="text"
                     value={formData.firstName}
-                    onChange={e => setFormData({...formData, firstName: e.target.value})}
+                    onChange={e => setFormData({ ...formData, firstName: e.target.value })}
                     required
                   />
                 </div>
@@ -268,7 +268,7 @@ const AdminTeam = () => {
                   <input
                     type="text"
                     value={formData.lastName}
-                    onChange={e => setFormData({...formData, lastName: e.target.value})}
+                    onChange={e => setFormData({ ...formData, lastName: e.target.value })}
                     required
                   />
                 </div>
@@ -280,7 +280,7 @@ const AdminTeam = () => {
                   <input
                     type="text"
                     value={formData.role}
-                    onChange={e => setFormData({...formData, role: e.target.value})}
+                    onChange={e => setFormData({ ...formData, role: e.target.value })}
                     placeholder="e.g., Founder & CEO, Lead Developer"
                     required
                   />
@@ -290,7 +290,7 @@ const AdminTeam = () => {
                   <input
                     type="color"
                     value={formData.color}
-                    onChange={e => setFormData({...formData, color: e.target.value})}
+                    onChange={e => setFormData({ ...formData, color: e.target.value })}
                     style={{ height: '40px', cursor: 'pointer' }}
                   />
                 </div>
@@ -306,7 +306,7 @@ const AdminTeam = () => {
                     if (file) {
                       const reader = new FileReader();
                       reader.onloadend = () => {
-                        setFormData({...formData, image: reader.result});
+                        setFormData({ ...formData, image: reader.result });
                       };
                       reader.readAsDataURL(file);
                     }
@@ -323,7 +323,7 @@ const AdminTeam = () => {
                 <label>Bio</label>
                 <textarea
                   value={formData.quote}
-                  onChange={e => setFormData({...formData, quote: e.target.value})}
+                  onChange={e => setFormData({ ...formData, quote: e.target.value })}
                   placeholder="Write a short bio about this team member..."
                   rows="4"
                   style={{ resize: 'vertical' }}
@@ -335,7 +335,7 @@ const AdminTeam = () => {
                 <input
                   type="text"
                   value={formData.techStack}
-                  onChange={e => setFormData({...formData, techStack: e.target.value})}
+                  onChange={e => setFormData({ ...formData, techStack: e.target.value })}
                   placeholder="e.g., React, Node.js, Python, MongoDB"
                 />
               </div>
@@ -348,8 +348,8 @@ const AdminTeam = () => {
                     type="text"
                     value={formData.social.linkedin}
                     onChange={e => setFormData({
-                      ...formData, 
-                      social: {...formData.social, linkedin: e.target.value}
+                      ...formData,
+                      social: { ...formData.social, linkedin: e.target.value }
                     })}
                     placeholder="https://linkedin.com/in/..."
                   />
@@ -360,8 +360,8 @@ const AdminTeam = () => {
                     type="text"
                     value={formData.social.github}
                     onChange={e => setFormData({
-                      ...formData, 
-                      social: {...formData.social, github: e.target.value}
+                      ...formData,
+                      social: { ...formData.social, github: e.target.value }
                     })}
                     placeholder="https://github.com/..."
                   />
@@ -373,8 +373,8 @@ const AdminTeam = () => {
                   type="text"
                   value={formData.social.twitter}
                   onChange={e => setFormData({
-                    ...formData, 
-                    social: {...formData.social, twitter: e.target.value}
+                    ...formData,
+                    social: { ...formData.social, twitter: e.target.value }
                   })}
                   placeholder="https://twitter.com/..."
                 />
@@ -386,7 +386,7 @@ const AdminTeam = () => {
                   <input
                     type="number"
                     value={formData.order}
-                    onChange={e => setFormData({...formData, order: parseInt(e.target.value)})}
+                    onChange={e => setFormData({ ...formData, order: parseInt(e.target.value) })}
                   />
                 </div>
                 <div className="form-group checkbox-group">
@@ -394,7 +394,7 @@ const AdminTeam = () => {
                     <input
                       type="checkbox"
                       checked={formData.isActive}
-                      onChange={e => setFormData({...formData, isActive: e.target.checked})}
+                      onChange={e => setFormData({ ...formData, isActive: e.target.checked })}
                     />
                     Active (visible on website)
                   </label>
@@ -414,7 +414,7 @@ const AdminTeam = () => {
 
       {/* Delete Confirmation Modal */}
       {deleteConfirm.show && (
-        <div 
+        <div
           style={{
             position: 'fixed',
             top: 0,
@@ -430,7 +430,7 @@ const AdminTeam = () => {
           }}
           onClick={() => setDeleteConfirm({ show: false, id: null, name: '' })}
         >
-          <div 
+          <div
             style={{
               background: '#1a1a1a',
               borderRadius: '12px',
@@ -456,9 +456,9 @@ const AdminTeam = () => {
               }}>
                 <span style={{ fontSize: '1.8rem' }}>🗑️</span>
               </div>
-              <h3 style={{ 
-                fontFamily: "'Bebas Neue', sans-serif", 
-                fontSize: '1.5rem', 
+              <h3 style={{
+                fontFamily: "'Bebas Neue', sans-serif",
+                fontSize: '1.5rem',
                 color: '#fff',
                 marginBottom: '0.5rem',
                 letterSpacing: '1px'
@@ -470,7 +470,7 @@ const AdminTeam = () => {
               </p>
             </div>
             <div style={{ display: 'flex', gap: '1rem' }}>
-              <button 
+              <button
                 onClick={() => setDeleteConfirm({ show: false, id: null, name: '' })}
                 style={{
                   flex: 1,
@@ -485,7 +485,7 @@ const AdminTeam = () => {
               >
                 Cancel
               </button>
-              <button 
+              <button
                 onClick={() => handleDelete(deleteConfirm.id)}
                 style={{
                   flex: 1,

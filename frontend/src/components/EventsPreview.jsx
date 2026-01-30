@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import './EventsPreview.css'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+import { API_URL } from '../config';
 
 // Helper function to transform API event data to match frontend format
 const transformEvent = (event) => {

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+import { API_URL } from '../../config';
 
 const AdminUsers = () => {
   const [users, setUsers] = useState([]);
@@ -19,14 +19,14 @@ const AdminUsers = () => {
 
   const fetchUsers = async () => {
     const token = localStorage.getItem('token');
-    
+
     try {
       const response = await fetch(`${API_URL}/auth/users`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
       console.log('API Response:', data);
-      
+
       // Handle different response formats
       if (Array.isArray(data)) {
         setUsers(data);
@@ -53,7 +53,7 @@ const AdminUsers = () => {
 
   const handleRoleChange = async (userId, newRole) => {
     const token = localStorage.getItem('token');
-    
+
     try {
       const response = await fetch(`${API_URL}/auth/users/${userId}/role`, {
         method: 'PUT',
@@ -63,12 +63,12 @@ const AdminUsers = () => {
         },
         body: JSON.stringify({ role: newRole })
       });
-      
+
       const data = await response.json();
       console.log('Role update response:', data);
-      
+
       if (data.success) {
-        setUsers(users.map(user => 
+        setUsers(users.map(user =>
           (user._id === userId || user.id === userId) ? { ...user, role: newRole } : user
         ));
         showToast(`Role updated to ${newRole} successfully!`, 'success');
@@ -81,7 +81,7 @@ const AdminUsers = () => {
     }
   };
 
-  const filteredUsers = users.filter(user => 
+  const filteredUsers = users.filter(user =>
     user.firstName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.lastName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.email?.toLowerCase().includes(searchTerm.toLowerCase())

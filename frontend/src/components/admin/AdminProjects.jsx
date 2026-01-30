@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+import { API_URL } from '../../config';
 
 const AdminProjects = () => {
   const [projects, setProjects] = useState([]);
@@ -40,18 +40,18 @@ const AdminProjects = () => {
 
   const fetchProjects = async () => {
     const token = localStorage.getItem('token');
-    
+
     try {
       let response = await fetch(`${API_URL}/projects/admin/all`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
-      
+
       if (!response.ok) {
         response = await fetch(`${API_URL}/projects`);
       }
-      
+
       const data = await response.json();
-      
+
       if (Array.isArray(data)) {
         setProjects(data);
       } else if (data.success && Array.isArray(data.data)) {
@@ -72,17 +72,17 @@ const AdminProjects = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
-    
+
     const submitData = {
       ...formData,
       technologies: formData.technologies.split(',').map(t => t.trim()).filter(t => t)
     };
-    
+
     try {
-      const url = editingProject 
+      const url = editingProject
         ? `${API_URL}/projects/${editingProject._id}`
         : `${API_URL}/projects`;
-      
+
       const response = await fetch(url, {
         method: editingProject ? 'PUT' : 'POST',
         headers: {
@@ -91,9 +91,9 @@ const AdminProjects = () => {
         },
         body: JSON.stringify(submitData)
       });
-      
+
       const data = await response.json();
-      
+
       if (response.ok) {
         fetchProjects();
         closeModal();
@@ -112,13 +112,13 @@ const AdminProjects = () => {
 
   const handleDelete = async (id) => {
     const token = localStorage.getItem('token');
-    
+
     try {
       const response = await fetch(`${API_URL}/projects/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
-      
+
       if (response.ok) {
         showNotification('Project deleted successfully!', 'success');
         fetchProjects();
@@ -252,7 +252,7 @@ const AdminProjects = () => {
 
       {/* Projects Grid */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '1.5rem', marginTop: '2rem' }}>
-        
+
         {filteredProjects.map((project, index) => (
           <div key={project._id || index} style={{
             background: '#111111',
@@ -304,7 +304,7 @@ const AdminProjects = () => {
             </div>
           </div>
         ))}
-        
+
         {filteredProjects.length === 0 && (
           <div className="empty-state">
             <p>No projects found</p>
@@ -327,7 +327,7 @@ const AdminProjects = () => {
                 <input
                   type="text"
                   value={formData.title}
-                  onChange={e => setFormData({...formData, title: e.target.value})}
+                  onChange={e => setFormData({ ...formData, title: e.target.value })}
                   required
                 />
               </div>
@@ -339,7 +339,7 @@ const AdminProjects = () => {
                   <input
                     type="text"
                     value={formData.creatorName}
-                    onChange={e => setFormData({...formData, creatorName: e.target.value})}
+                    onChange={e => setFormData({ ...formData, creatorName: e.target.value })}
                     placeholder="Your full name"
                     required
                   />
@@ -349,7 +349,7 @@ const AdminProjects = () => {
                   <input
                     type="text"
                     value={formData.creatorRole}
-                    onChange={e => setFormData({...formData, creatorRole: e.target.value})}
+                    onChange={e => setFormData({ ...formData, creatorRole: e.target.value })}
                     placeholder="e.g., Full Stack Developer"
                   />
                 </div>
@@ -361,7 +361,7 @@ const AdminProjects = () => {
                   <input
                     type="text"
                     value={formData.graduationYear}
-                    onChange={e => setFormData({...formData, graduationYear: e.target.value})}
+                    onChange={e => setFormData({ ...formData, graduationYear: e.target.value })}
                     placeholder="e.g., 2024"
                     maxLength={4}
                   />
@@ -371,7 +371,7 @@ const AdminProjects = () => {
                   <input
                     type="text"
                     value={formData.creatorImage}
-                    onChange={e => setFormData({...formData, creatorImage: e.target.value})}
+                    onChange={e => setFormData({ ...formData, creatorImage: e.target.value })}
                     placeholder="https://... or leave blank"
                   />
                 </div>
@@ -382,7 +382,7 @@ const AdminProjects = () => {
                   <label>Category</label>
                   <select
                     value={formData.category}
-                    onChange={e => setFormData({...formData, category: e.target.value})}
+                    onChange={e => setFormData({ ...formData, category: e.target.value })}
                   >
                     <option value="web">Web</option>
                     <option value="mobile">Mobile</option>
@@ -397,7 +397,7 @@ const AdminProjects = () => {
                   <label>Project Type</label>
                   <select
                     value={formData.projectType}
-                    onChange={e => setFormData({...formData, projectType: e.target.value})}
+                    onChange={e => setFormData({ ...formData, projectType: e.target.value })}
                   >
                     <option value="personal">Personal</option>
                     <option value="client">Client</option>
@@ -411,7 +411,7 @@ const AdminProjects = () => {
                   <label>Status</label>
                   <select
                     value={formData.status}
-                    onChange={e => setFormData({...formData, status: e.target.value})}
+                    onChange={e => setFormData({ ...formData, status: e.target.value })}
                   >
                     <option value="in-progress">In Progress</option>
                     <option value="completed">Completed</option>
@@ -426,7 +426,7 @@ const AdminProjects = () => {
                 <input
                   type="text"
                   value={formData.shortDescription}
-                  onChange={e => setFormData({...formData, shortDescription: e.target.value})}
+                  onChange={e => setFormData({ ...formData, shortDescription: e.target.value })}
                   placeholder="Brief description for cards..."
                   maxLength={200}
                 />
@@ -436,7 +436,7 @@ const AdminProjects = () => {
                 <label>Full Description *</label>
                 <textarea
                   value={formData.description}
-                  onChange={e => setFormData({...formData, description: e.target.value})}
+                  onChange={e => setFormData({ ...formData, description: e.target.value })}
                   rows={4}
                   required
                 />
@@ -447,7 +447,7 @@ const AdminProjects = () => {
                 <input
                   type="text"
                   value={formData.technologies}
-                  onChange={e => setFormData({...formData, technologies: e.target.value})}
+                  onChange={e => setFormData({ ...formData, technologies: e.target.value })}
                   placeholder="React, Node.js, MongoDB, etc."
                 />
               </div>
@@ -459,7 +459,7 @@ const AdminProjects = () => {
                   <input
                     type="text"
                     value={formData.liveUrl}
-                    onChange={e => setFormData({...formData, liveUrl: e.target.value})}
+                    onChange={e => setFormData({ ...formData, liveUrl: e.target.value })}
                     placeholder="https://..."
                   />
                 </div>
@@ -468,7 +468,7 @@ const AdminProjects = () => {
                   <input
                     type="text"
                     value={formData.githubUrl}
-                    onChange={e => setFormData({...formData, githubUrl: e.target.value})}
+                    onChange={e => setFormData({ ...formData, githubUrl: e.target.value })}
                     placeholder="https://github.com/..."
                   />
                 </div>
@@ -484,7 +484,7 @@ const AdminProjects = () => {
                     if (file) {
                       const reader = new FileReader();
                       reader.onloadend = () => {
-                        setFormData({...formData, image: reader.result});
+                        setFormData({ ...formData, image: reader.result });
                       };
                       reader.readAsDataURL(file);
                     }
@@ -503,7 +503,7 @@ const AdminProjects = () => {
                     <input
                       type="checkbox"
                       checked={formData.isFeatured}
-                      onChange={e => setFormData({...formData, isFeatured: e.target.checked})}
+                      onChange={e => setFormData({ ...formData, isFeatured: e.target.checked })}
                     />
                     Featured Project (show on homepage)
                   </label>
@@ -513,7 +513,7 @@ const AdminProjects = () => {
                     <input
                       type="checkbox"
                       checked={formData.isVisible}
-                      onChange={e => setFormData({...formData, isVisible: e.target.checked})}
+                      onChange={e => setFormData({ ...formData, isVisible: e.target.checked })}
                     />
                     Visible on website
                   </label>
@@ -533,7 +533,7 @@ const AdminProjects = () => {
 
       {/* Delete Confirmation Modal */}
       {deleteConfirm.show && (
-        <div 
+        <div
           style={{
             position: 'fixed',
             top: 0,
@@ -549,7 +549,7 @@ const AdminProjects = () => {
           }}
           onClick={() => setDeleteConfirm({ show: false, id: null, title: '' })}
         >
-          <div 
+          <div
             style={{
               background: '#1a1a1a',
               borderRadius: '12px',
@@ -575,9 +575,9 @@ const AdminProjects = () => {
               }}>
                 <span style={{ fontSize: '1.8rem' }}>🗑️</span>
               </div>
-              <h3 style={{ 
-                fontFamily: "'Bebas Neue', sans-serif", 
-                fontSize: '1.5rem', 
+              <h3 style={{
+                fontFamily: "'Bebas Neue', sans-serif",
+                fontSize: '1.5rem',
                 color: '#fff',
                 marginBottom: '0.5rem',
                 letterSpacing: '1px'
@@ -589,7 +589,7 @@ const AdminProjects = () => {
               </p>
             </div>
             <div style={{ display: 'flex', gap: '1rem' }}>
-              <button 
+              <button
                 onClick={() => setDeleteConfirm({ show: false, id: null, title: '' })}
                 style={{
                   flex: 1,
@@ -605,7 +605,7 @@ const AdminProjects = () => {
               >
                 Cancel
               </button>
-              <button 
+              <button
                 onClick={() => handleDelete(deleteConfirm.id)}
                 style={{
                   flex: 1,

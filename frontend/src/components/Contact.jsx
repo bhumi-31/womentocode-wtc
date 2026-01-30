@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import Navbar from './Navbar'
 import './Contact.css'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+import { API_URL } from '../config';
 
 // TypewriterText Component
 const TypewriterText = ({ text, delay = 0, speed = 80, onComplete }) => {

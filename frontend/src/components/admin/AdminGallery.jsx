@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+import { API_URL } from '../../config';
 
 const AdminGallery = () => {
   const [images, setImages] = useState([]);
@@ -36,13 +36,13 @@ const AdminGallery = () => {
 
   const fetchImages = async () => {
     const token = localStorage.getItem('token');
-    
+
     try {
       const response = await fetch(`${API_URL}/gallery/admin/all`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
-      
+
       if (data.success) {
         setImages(data.data || []);
       } else {
@@ -66,12 +66,12 @@ const AdminGallery = () => {
       ...formData,
       tags: formData.tags.split(',').map(t => t.trim()).filter(Boolean)
     };
-    
+
     try {
-      const url = editingImage 
+      const url = editingImage
         ? `${API_URL}/gallery/${editingImage._id}`
         : `${API_URL}/gallery`;
-      
+
       const response = await fetch(url, {
         method: editingImage ? 'PUT' : 'POST',
         headers: {
@@ -80,9 +80,9 @@ const AdminGallery = () => {
         },
         body: JSON.stringify(submitData)
       });
-      
+
       const data = await response.json();
-      
+
       if (response.ok) {
         showNotification(editingImage ? 'Image updated successfully!' : 'Image added successfully!', 'success');
         fetchImages();
@@ -98,13 +98,13 @@ const AdminGallery = () => {
 
   const handleDelete = async (id) => {
     const token = localStorage.getItem('token');
-    
+
     try {
       const response = await fetch(`${API_URL}/gallery/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
-      
+
       if (response.ok) {
         showNotification('Image deleted successfully!', 'success');
         fetchImages();
@@ -213,7 +213,7 @@ const AdminGallery = () => {
           </h1>
           <p style={{ color: '#888' }}>{images.length} total images</p>
         </div>
-        <button 
+        <button
           onClick={openAddModal}
           style={{
             background: '#F7D046',
@@ -253,32 +253,32 @@ const AdminGallery = () => {
       </div>
 
       {/* Gallery Grid */}
-      <div style={{ 
-        display: 'grid', 
-        gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', 
-        gap: '1.5rem' 
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+        gap: '1.5rem'
       }}>
         {filteredImages.map(image => (
-          <div 
-            key={image._id} 
-            style={{ 
-              background: '#1a1a1a', 
-              borderRadius: '8px', 
+          <div
+            key={image._id}
+            style={{
+              background: '#1a1a1a',
+              borderRadius: '8px',
               overflow: 'hidden',
               border: '1px solid #222'
             }}
           >
             <div style={{ position: 'relative', paddingTop: '66.67%', background: '#111' }}>
-              <img 
-                src={image.image || '/placeholder.jpg'} 
+              <img
+                src={image.image || '/placeholder.jpg'}
                 alt={image.title}
-                style={{ 
-                  position: 'absolute', 
-                  top: 0, 
-                  left: 0, 
-                  width: '100%', 
-                  height: '100%', 
-                  objectFit: 'cover' 
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover'
                 }}
               />
               {image.isFeatured && (
@@ -315,54 +315,54 @@ const AdminGallery = () => {
                 {image.description?.substring(0, 60) || 'No description'}...
               </p>
               <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
-                <span style={{ 
-                  background: '#222', 
-                  padding: '0.2rem 0.5rem', 
-                  fontSize: '0.7rem', 
-                  color: '#F7D046' 
+                <span style={{
+                  background: '#222',
+                  padding: '0.2rem 0.5rem',
+                  fontSize: '0.7rem',
+                  color: '#F7D046'
                 }}>
                   {image.category}
                 </span>
                 {image.album && (
-                  <span style={{ 
-                    background: '#222', 
-                    padding: '0.2rem 0.5rem', 
-                    fontSize: '0.7rem', 
-                    color: '#888' 
+                  <span style={{
+                    background: '#222',
+                    padding: '0.2rem 0.5rem',
+                    fontSize: '0.7rem',
+                    color: '#888'
                   }}>
                     📁 {image.album}
                   </span>
                 )}
               </div>
             </div>
-            <div style={{ 
-              display: 'flex', 
-              gap: '0.5rem', 
-              padding: '1rem', 
-              borderTop: '1px solid #222' 
+            <div style={{
+              display: 'flex',
+              gap: '0.5rem',
+              padding: '1rem',
+              borderTop: '1px solid #222'
             }}>
-              <button 
-                onClick={() => openEditModal(image)} 
-                style={{ 
-                  flex: 1, 
-                  background: 'transparent', 
-                  border: '1px solid #F7D046', 
-                  color: '#F7D046', 
-                  padding: '0.5rem', 
-                  cursor: 'pointer' 
+              <button
+                onClick={() => openEditModal(image)}
+                style={{
+                  flex: 1,
+                  background: 'transparent',
+                  border: '1px solid #F7D046',
+                  color: '#F7D046',
+                  padding: '0.5rem',
+                  cursor: 'pointer'
                 }}
               >
                 Edit
               </button>
-              <button 
-                onClick={() => confirmDelete(image)} 
-                style={{ 
-                  flex: 1, 
-                  background: 'transparent', 
-                  border: '1px solid #ff6b6b', 
-                  color: '#ff6b6b', 
-                  padding: '0.5rem', 
-                  cursor: 'pointer' 
+              <button
+                onClick={() => confirmDelete(image)}
+                style={{
+                  flex: 1,
+                  background: 'transparent',
+                  border: '1px solid #ff6b6b',
+                  color: '#ff6b6b',
+                  padding: '0.5rem',
+                  cursor: 'pointer'
                 }}
               >
                 Delete
@@ -370,7 +370,7 @@ const AdminGallery = () => {
             </div>
           </div>
         ))}
-        
+
         {filteredImages.length === 0 && (
           <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '3rem', color: '#888' }}>
             <p>No images found</p>
@@ -395,7 +395,7 @@ const AdminGallery = () => {
                 <input
                   type="text"
                   value={formData.title}
-                  onChange={e => setFormData({...formData, title: e.target.value})}
+                  onChange={e => setFormData({ ...formData, title: e.target.value })}
                   placeholder="Image title"
                   required
                 />
@@ -411,7 +411,7 @@ const AdminGallery = () => {
                     if (file) {
                       const reader = new FileReader();
                       reader.onloadend = () => {
-                        setFormData({...formData, image: reader.result});
+                        setFormData({ ...formData, image: reader.result });
                       };
                       reader.readAsDataURL(file);
                     }
@@ -428,7 +428,7 @@ const AdminGallery = () => {
                 <label>Description</label>
                 <textarea
                   value={formData.description}
-                  onChange={e => setFormData({...formData, description: e.target.value})}
+                  onChange={e => setFormData({ ...formData, description: e.target.value })}
                   placeholder="Image description or caption"
                   rows={3}
                 />
@@ -439,7 +439,7 @@ const AdminGallery = () => {
                   <label>Category</label>
                   <select
                     value={formData.category}
-                    onChange={e => setFormData({...formData, category: e.target.value})}
+                    onChange={e => setFormData({ ...formData, category: e.target.value })}
                   >
                     {categories.map(cat => (
                       <option key={cat} value={cat}>{cat.charAt(0).toUpperCase() + cat.slice(1)}</option>
@@ -451,7 +451,7 @@ const AdminGallery = () => {
                   <input
                     type="text"
                     value={formData.album}
-                    onChange={e => setFormData({...formData, album: e.target.value})}
+                    onChange={e => setFormData({ ...formData, album: e.target.value })}
                     placeholder="e.g., Summer Bootcamp 2024"
                   />
                 </div>
@@ -462,7 +462,7 @@ const AdminGallery = () => {
                 <input
                   type="text"
                   value={formData.tags}
-                  onChange={e => setFormData({...formData, tags: e.target.value})}
+                  onChange={e => setFormData({ ...formData, tags: e.target.value })}
                   placeholder="graduation, 2024, students"
                 />
               </div>
@@ -472,7 +472,7 @@ const AdminGallery = () => {
                 <input
                   type="number"
                   value={formData.order}
-                  onChange={e => setFormData({...formData, order: parseInt(e.target.value) || 0})}
+                  onChange={e => setFormData({ ...formData, order: parseInt(e.target.value) || 0 })}
                   placeholder="0"
                   min="0"
                 />
@@ -485,7 +485,7 @@ const AdminGallery = () => {
                   <input
                     type="text"
                     value={formData.photographer}
-                    onChange={e => setFormData({...formData, photographer: e.target.value})}
+                    onChange={e => setFormData({ ...formData, photographer: e.target.value })}
                     placeholder="Photo by..."
                   />
                 </div>
@@ -494,7 +494,7 @@ const AdminGallery = () => {
                   <input
                     type="date"
                     value={formData.dateTaken}
-                    onChange={e => setFormData({...formData, dateTaken: e.target.value})}
+                    onChange={e => setFormData({ ...formData, dateTaken: e.target.value })}
                   />
                 </div>
               </div>
@@ -505,7 +505,7 @@ const AdminGallery = () => {
                     <input
                       type="checkbox"
                       checked={formData.isFeatured}
-                      onChange={e => setFormData({...formData, isFeatured: e.target.checked})}
+                      onChange={e => setFormData({ ...formData, isFeatured: e.target.checked })}
                     />
                     Featured (show on homepage)
                   </label>
@@ -515,7 +515,7 @@ const AdminGallery = () => {
                     <input
                       type="checkbox"
                       checked={formData.isActive}
-                      onChange={e => setFormData({...formData, isActive: e.target.checked})}
+                      onChange={e => setFormData({ ...formData, isActive: e.target.checked })}
                     />
                     Visible on website
                   </label>
@@ -535,7 +535,7 @@ const AdminGallery = () => {
 
       {/* Delete Confirmation Modal */}
       {deleteConfirm.show && (
-        <div 
+        <div
           style={{
             position: 'fixed',
             top: 0,
@@ -551,7 +551,7 @@ const AdminGallery = () => {
           }}
           onClick={() => setDeleteConfirm({ show: false, id: null, title: '' })}
         >
-          <div 
+          <div
             style={{
               background: '#1a1a1a',
               borderRadius: '12px',
@@ -577,9 +577,9 @@ const AdminGallery = () => {
               }}>
                 <span style={{ fontSize: '1.8rem' }}>🗑️</span>
               </div>
-              <h3 style={{ 
-                fontFamily: "'Bebas Neue', sans-serif", 
-                fontSize: '1.5rem', 
+              <h3 style={{
+                fontFamily: "'Bebas Neue', sans-serif",
+                fontSize: '1.5rem',
                 color: '#fff',
                 marginBottom: '0.5rem',
                 letterSpacing: '1px'
@@ -591,7 +591,7 @@ const AdminGallery = () => {
               </p>
             </div>
             <div style={{ display: 'flex', gap: '1rem' }}>
-              <button 
+              <button
                 onClick={() => setDeleteConfirm({ show: false, id: null, title: '' })}
                 style={{
                   flex: 1,
@@ -606,7 +606,7 @@ const AdminGallery = () => {
               >
                 Cancel
               </button>
-              <button 
+              <button
                 onClick={() => handleDelete(deleteConfirm.id)}
                 style={{
                   flex: 1,

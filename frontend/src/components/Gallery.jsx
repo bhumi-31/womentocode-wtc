@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import './Gallery.css';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+import { API_URL } from '../config';
 
 // Helper: Split images into chunks of 7 for bento rows
 const chunkArray = (arr, size) => {
@@ -63,42 +63,42 @@ const BentoRow = ({ images, rowIndex, showImages }) => {
   if (!images || images.length === 0) return null;
 
   return (
-    <div 
+    <div
       className={`gallery-grid ${showImages ? 'visible' : ''}`}
       style={{ animationDelay: `${rowIndex * 0.15}s` }}
     >
       {images[0] && (
-        <div className="gallery-item main-image" style={{animationDelay: `${rowIndex * 0.15}s`}}>
+        <div className="gallery-item main-image" style={{ animationDelay: `${rowIndex * 0.15}s` }}>
           <img src={getImageUrl(images[0])} alt={getImageAlt(images[0])} loading="eager" />
         </div>
       )}
       {images[1] && (
-        <div className="gallery-item left-top" style={{animationDelay: `${rowIndex * 0.15 + 0.05}s`}}>
+        <div className="gallery-item left-top" style={{ animationDelay: `${rowIndex * 0.15 + 0.05}s` }}>
           <img src={getImageUrl(images[1])} alt={getImageAlt(images[1])} loading="eager" />
         </div>
       )}
       {images[2] && (
-        <div className="gallery-item left-bottom" style={{animationDelay: `${rowIndex * 0.15 + 0.1}s`}}>
+        <div className="gallery-item left-bottom" style={{ animationDelay: `${rowIndex * 0.15 + 0.1}s` }}>
           <img src={getImageUrl(images[2])} alt={getImageAlt(images[2])} loading="eager" />
         </div>
       )}
       {images[3] && (
-        <div className="gallery-item right-top" style={{animationDelay: `${rowIndex * 0.15 + 0.05}s`}}>
+        <div className="gallery-item right-top" style={{ animationDelay: `${rowIndex * 0.15 + 0.05}s` }}>
           <img src={getImageUrl(images[3])} alt={getImageAlt(images[3])} loading="eager" />
         </div>
       )}
       {images[4] && (
-        <div className="gallery-item right-bottom" style={{animationDelay: `${rowIndex * 0.15 + 0.1}s`}}>
+        <div className="gallery-item right-bottom" style={{ animationDelay: `${rowIndex * 0.15 + 0.1}s` }}>
           <img src={getImageUrl(images[4])} alt={getImageAlt(images[4])} loading="eager" />
         </div>
       )}
       {images[5] && (
-        <div className="gallery-item bottom-left" style={{animationDelay: `${rowIndex * 0.15 + 0.15}s`}}>
+        <div className="gallery-item bottom-left" style={{ animationDelay: `${rowIndex * 0.15 + 0.15}s` }}>
           <img src={getImageUrl(images[5])} alt={getImageAlt(images[5])} loading="lazy" />
         </div>
       )}
       {images[6] && (
-        <div className="gallery-item bottom-right" style={{animationDelay: `${rowIndex * 0.15 + 0.15}s`}}>
+        <div className="gallery-item bottom-right" style={{ animationDelay: `${rowIndex * 0.15 + 0.15}s` }}>
           <img src={getImageUrl(images[6])} alt={getImageAlt(images[6])} loading="lazy" />
         </div>
       )}
@@ -151,19 +151,19 @@ const Gallery = () => {
           <span className="gallery-label">── OUR GALLERY</span>
           <h1 className="gallery-title">
             <span className="title-line">
-              <TypewriterText 
-                text="MOMENTS OF" 
-                delay={300} 
-                speed={60} 
+              <TypewriterText
+                text="MOMENTS OF"
+                delay={300}
+                speed={60}
                 onComplete={() => setLine1Done(true)}
               />
             </span>
             {line1Done && (
               <span className="title-line highlight">
-                <TypewriterText 
-                  text="EMPOWERMENT" 
-                  delay={100} 
-                  speed={50} 
+                <TypewriterText
+                  text="EMPOWERMENT"
+                  delay={100}
+                  speed={50}
                   onComplete={() => setHeadingComplete(true)}
                 />
               </span>
@@ -177,7 +177,7 @@ const Gallery = () => {
         {/* Images after heading complete and loaded */}
         {showImages && !isLoading && galleryImages.length > 0 && (
           imageRows.map((rowImages, index) => (
-            <BentoRow 
+            <BentoRow
               key={index}
               images={rowImages}
               rowIndex={index}

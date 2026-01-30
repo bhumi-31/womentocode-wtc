@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+import { API_URL } from '../../config';
 
 const AdminArticles = () => {
   const [articles, setArticles] = useState([]);
@@ -35,13 +35,13 @@ const AdminArticles = () => {
 
   const fetchArticles = async () => {
     const token = localStorage.getItem('token');
-    
+
     try {
       const response = await fetch(`${API_URL}/articles/admin/all`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
-      
+
       if (data.success) {
         setArticles(data.data || []);
       } else {
@@ -66,12 +66,12 @@ const AdminArticles = () => {
       content: formData.excerpt || formData.title,
       publishedAt: formData.status === 'published' ? new Date() : null
     };
-    
+
     try {
-      const url = editingArticle 
+      const url = editingArticle
         ? `${API_URL}/articles/${editingArticle._id}`
         : `${API_URL}/articles`;
-      
+
       const response = await fetch(url, {
         method: editingArticle ? 'PUT' : 'POST',
         headers: {
@@ -80,9 +80,9 @@ const AdminArticles = () => {
         },
         body: JSON.stringify(submitData)
       });
-      
+
       const data = await response.json();
-      
+
       if (response.ok) {
         showNotification(editingArticle ? 'Article updated successfully!' : 'Article created successfully!', 'success');
         fetchArticles();
@@ -98,13 +98,13 @@ const AdminArticles = () => {
 
   const handleDelete = async (id) => {
     const token = localStorage.getItem('token');
-    
+
     try {
       const response = await fetch(`${API_URL}/articles/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
-      
+
       if (response.ok) {
         showNotification('Article deleted successfully!', 'success');
         fetchArticles();
@@ -122,7 +122,7 @@ const AdminArticles = () => {
   const togglePublish = async (article) => {
     const token = localStorage.getItem('token');
     const newStatus = article.status === 'published' ? 'draft' : 'published';
-    
+
     try {
       const response = await fetch(`${API_URL}/articles/${article._id}`, {
         method: 'PUT',
@@ -130,12 +130,12 @@ const AdminArticles = () => {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           status: newStatus,
           publishedAt: newStatus === 'published' ? new Date() : null
         })
       });
-      
+
       if (response.ok) {
         showNotification(`Article ${newStatus === 'published' ? 'published' : 'unpublished'}!`, 'success');
         fetchArticles();
@@ -249,7 +249,7 @@ const AdminArticles = () => {
           </h1>
           <p style={{ color: '#888' }}>{articles.length} total articles</p>
         </div>
-        <button 
+        <button
           onClick={openAddModal}
           style={{
             background: '#F7D046',
@@ -291,11 +291,11 @@ const AdminArticles = () => {
       {/* Articles List */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         {filteredArticles.map(article => (
-          <div 
-            key={article._id} 
-            style={{ 
-              background: '#1a1a1a', 
-              borderRadius: '8px', 
+          <div
+            key={article._id}
+            style={{
+              background: '#1a1a1a',
+              borderRadius: '8px',
               overflow: 'hidden',
               border: '1px solid #222',
               display: 'grid',
@@ -306,25 +306,25 @@ const AdminArticles = () => {
             }}
           >
             {/* Image */}
-            <div style={{ 
-              width: '150px', 
-              height: '100px', 
-              background: '#111', 
+            <div style={{
+              width: '150px',
+              height: '100px',
+              background: '#111',
               borderRadius: '4px',
               overflow: 'hidden'
             }}>
               {article.featuredImage ? (
-                <img 
-                  src={article.featuredImage} 
+                <img
+                  src={article.featuredImage}
                   alt={article.title}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
               ) : (
-                <div style={{ 
-                  width: '100%', 
-                  height: '100%', 
-                  display: 'flex', 
-                  alignItems: 'center', 
+                <div style={{
+                  width: '100%',
+                  height: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
                   justifyContent: 'center',
                   color: '#444',
                   fontSize: '2rem'
@@ -337,10 +337,10 @@ const AdminArticles = () => {
             {/* Content */}
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
-                <span style={{ 
-                  background: getStatusColor(article.status), 
-                  color: '#fff', 
-                  padding: '0.2rem 0.5rem', 
+                <span style={{
+                  background: getStatusColor(article.status),
+                  color: '#fff',
+                  padding: '0.2rem 0.5rem',
                   fontSize: '0.7rem',
                   borderRadius: '3px'
                 }}>
@@ -383,26 +383,26 @@ const AdminArticles = () => {
 
             {/* Actions */}
             <div style={{ display: 'flex', gap: '0.5rem' }}>
-              <button 
-                onClick={() => openEditModal(article)} 
-                style={{ 
-                  background: 'transparent', 
-                  border: '1px solid #F7D046', 
-                  color: '#F7D046', 
-                  padding: '0.5rem 1rem', 
-                  cursor: 'pointer' 
+              <button
+                onClick={() => openEditModal(article)}
+                style={{
+                  background: 'transparent',
+                  border: '1px solid #F7D046',
+                  color: '#F7D046',
+                  padding: '0.5rem 1rem',
+                  cursor: 'pointer'
                 }}
               >
                 Edit
               </button>
-              <button 
-                onClick={() => confirmDelete(article)} 
-                style={{ 
-                  background: 'transparent', 
-                  border: '1px solid #ff6b6b', 
-                  color: '#ff6b6b', 
-                  padding: '0.5rem 1rem', 
-                  cursor: 'pointer' 
+              <button
+                onClick={() => confirmDelete(article)}
+                style={{
+                  background: 'transparent',
+                  border: '1px solid #ff6b6b',
+                  color: '#ff6b6b',
+                  padding: '0.5rem 1rem',
+                  cursor: 'pointer'
                 }}
               >
                 Delete
@@ -410,7 +410,7 @@ const AdminArticles = () => {
             </div>
           </div>
         ))}
-        
+
         {filteredArticles.length === 0 && (
           <div style={{ textAlign: 'center', padding: '3rem', color: '#888' }}>
             <p>No articles found</p>
@@ -435,7 +435,7 @@ const AdminArticles = () => {
                 <input
                   type="text"
                   value={formData.title}
-                  onChange={e => setFormData({...formData, title: e.target.value})}
+                  onChange={e => setFormData({ ...formData, title: e.target.value })}
                   placeholder="Article title"
                   required
                 />
@@ -446,7 +446,7 @@ const AdminArticles = () => {
                 <input
                   type="url"
                   value={formData.mediumUrl}
-                  onChange={e => setFormData({...formData, mediumUrl: e.target.value})}
+                  onChange={e => setFormData({ ...formData, mediumUrl: e.target.value })}
                   placeholder="https://medium.com/@womentocode/your-article-slug"
                   required
                 />
@@ -457,7 +457,7 @@ const AdminArticles = () => {
                 <label>Excerpt (Short Preview) *</label>
                 <textarea
                   value={formData.excerpt}
-                  onChange={e => setFormData({...formData, excerpt: e.target.value})}
+                  onChange={e => setFormData({ ...formData, excerpt: e.target.value })}
                   placeholder="Brief summary that appears on article cards..."
                   rows={3}
                   maxLength={300}
@@ -475,7 +475,7 @@ const AdminArticles = () => {
                     if (file) {
                       const reader = new FileReader();
                       reader.onloadend = () => {
-                        setFormData({...formData, featuredImage: reader.result});
+                        setFormData({ ...formData, featuredImage: reader.result });
                       };
                       reader.readAsDataURL(file);
                     }
@@ -493,7 +493,7 @@ const AdminArticles = () => {
                   <label>Category</label>
                   <select
                     value={formData.category}
-                    onChange={e => setFormData({...formData, category: e.target.value})}
+                    onChange={e => setFormData({ ...formData, category: e.target.value })}
                   >
                     {categories.map(cat => (
                       <option key={cat} value={cat}>
@@ -507,7 +507,7 @@ const AdminArticles = () => {
                   <input
                     type="number"
                     value={formData.readTime}
-                    onChange={e => setFormData({...formData, readTime: parseInt(e.target.value) || 5})}
+                    onChange={e => setFormData({ ...formData, readTime: parseInt(e.target.value) || 5 })}
                     min="1"
                     max="60"
                   />
@@ -521,7 +521,7 @@ const AdminArticles = () => {
                   <input
                     type="text"
                     value={formData.authorName}
-                    onChange={e => setFormData({...formData, authorName: e.target.value})}
+                    onChange={e => setFormData({ ...formData, authorName: e.target.value })}
                     placeholder="Author's name"
                     required
                   />
@@ -536,7 +536,7 @@ const AdminArticles = () => {
                       if (file) {
                         const reader = new FileReader();
                         reader.onloadend = () => {
-                          setFormData({...formData, authorImage: reader.result});
+                          setFormData({ ...formData, authorImage: reader.result });
                         };
                         reader.readAsDataURL(file);
                       }
@@ -554,7 +554,7 @@ const AdminArticles = () => {
                     <input
                       type="checkbox"
                       checked={formData.isFeatured}
-                      onChange={e => setFormData({...formData, isFeatured: e.target.checked})}
+                      onChange={e => setFormData({ ...formData, isFeatured: e.target.checked })}
                     />
                     Featured Article (shows larger on page)
                   </label>
@@ -564,7 +564,7 @@ const AdminArticles = () => {
                     <input
                       type="checkbox"
                       checked={formData.isActive}
-                      onChange={e => setFormData({...formData, isActive: e.target.checked})}
+                      onChange={e => setFormData({ ...formData, isActive: e.target.checked })}
                     />
                     Visible on website
                   </label>
@@ -584,7 +584,7 @@ const AdminArticles = () => {
 
       {/* Delete Confirmation Modal */}
       {deleteConfirm.show && (
-        <div 
+        <div
           style={{
             position: 'fixed',
             top: 0,
@@ -600,7 +600,7 @@ const AdminArticles = () => {
           }}
           onClick={() => setDeleteConfirm({ show: false, id: null, title: '' })}
         >
-          <div 
+          <div
             style={{
               background: '#1a1a1a',
               borderRadius: '12px',
@@ -626,9 +626,9 @@ const AdminArticles = () => {
               }}>
                 <span style={{ fontSize: '1.8rem' }}>🗑️</span>
               </div>
-              <h3 style={{ 
-                fontFamily: "'Bebas Neue', sans-serif", 
-                fontSize: '1.5rem', 
+              <h3 style={{
+                fontFamily: "'Bebas Neue', sans-serif",
+                fontSize: '1.5rem',
                 color: '#fff',
                 marginBottom: '0.5rem',
                 letterSpacing: '1px'
@@ -640,7 +640,7 @@ const AdminArticles = () => {
               </p>
             </div>
             <div style={{ display: 'flex', gap: '1rem' }}>
-              <button 
+              <button
                 onClick={() => setDeleteConfirm({ show: false, id: null, title: '' })}
                 style={{
                   flex: 1,
@@ -655,7 +655,7 @@ const AdminArticles = () => {
               >
                 Cancel
               </button>
-              <button 
+              <button
                 onClick={() => handleDelete(deleteConfirm.id)}
                 style={{
                   flex: 1,

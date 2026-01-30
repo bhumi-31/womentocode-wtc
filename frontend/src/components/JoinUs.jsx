@@ -4,7 +4,7 @@ import Navbar from './Navbar'
 import Footer from './Footer'
 import './JoinUs.css'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+import { API_URL } from '../config';
 
 function JoinUs() {
   const navigate = useNavigate()
@@ -75,7 +75,7 @@ function JoinUs() {
   return (
     <div className="joinus-page">
       <Navbar />
-      
+
       <main className="joinus-main">
         {/* Background Elements */}
         <div className="joinus-bg-elements">
@@ -96,7 +96,7 @@ function JoinUs() {
             <p className="joinus-description">
               Join our community of passionate women in tech. Together, we learn, grow, and empower each other to achieve greatness.
             </p>
-            
+
             <div className="joinus-benefits">
               <div className="benefit-item">
                 <div className="benefit-icon">
@@ -141,7 +141,7 @@ function JoinUs() {
           <div className="joinus-form-container">
             <form onSubmit={handleSubmit} className="joinus-form">
               <h2 className="form-title">Registration Form</h2>
-              
+
               {submitStatus === 'success' && (
                 <div className="alert alert-success">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -151,7 +151,7 @@ function JoinUs() {
                   <span>Application submitted successfully! We'll get back to you soon.</span>
                 </div>
               )}
-              
+
               {submitStatus === 'error' && (
                 <div className="alert alert-error">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -253,8 +253,8 @@ function JoinUs() {
                 />
               </div>
 
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 className={`submit-btn ${isSubmitting ? 'submitting' : ''}`}
                 disabled={isSubmitting}
               >

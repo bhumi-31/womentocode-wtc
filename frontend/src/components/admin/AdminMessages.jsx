@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+import { API_URL } from '../../config';
 
 const AdminMessages = () => {
   const [messages, setMessages] = useState([]);
@@ -21,13 +21,13 @@ const AdminMessages = () => {
 
   const fetchMessages = async () => {
     const token = localStorage.getItem('token');
-    
+
     try {
       const response = await fetch(`${API_URL}/contact`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
-      
+
       if (data.success) {
         setMessages(data.data || []);
       }
@@ -40,7 +40,7 @@ const AdminMessages = () => {
 
   const handleMarkAsRead = async (messageId) => {
     const token = localStorage.getItem('token');
-    
+
     try {
       await fetch(`${API_URL}/contact/${messageId}`, {
         method: 'PUT',
@@ -50,8 +50,8 @@ const AdminMessages = () => {
         },
         body: JSON.stringify({ status: 'read' })
       });
-      
-      setMessages(messages.map(msg => 
+
+      setMessages(messages.map(msg =>
         msg._id === messageId ? { ...msg, status: 'read' } : msg
       ));
     } catch (error) {
@@ -61,15 +61,15 @@ const AdminMessages = () => {
 
   const handleDelete = async (messageId) => {
     const token = localStorage.getItem('token');
-    
+
     try {
       const response = await fetch(`${API_URL}/contact/${messageId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
-      
+
       const data = await response.json();
-      
+
       if (data.success) {
         setMessages(messages.filter(msg => msg._id !== messageId));
         if (selectedMessage?._id === messageId) {
@@ -120,19 +120,19 @@ const AdminMessages = () => {
 
       {/* Filters */}
       <div className="filter-section">
-        <button 
+        <button
           className={`filter-btn ${filter === 'all' ? 'active' : ''}`}
           onClick={() => setFilter('all')}
         >
           ALL
         </button>
-        <button 
+        <button
           className={`filter-btn ${filter === 'unread' ? 'active' : ''}`}
           onClick={() => setFilter('unread')}
         >
           UNREAD ({unreadCount})
         </button>
-        <button 
+        <button
           className={`filter-btn ${filter === 'read' ? 'active' : ''}`}
           onClick={() => setFilter('read')}
         >
@@ -146,7 +146,7 @@ const AdminMessages = () => {
         <div className="messages-list">
           {filteredMessages.length > 0 ? (
             filteredMessages.map((msg) => (
-              <div 
+              <div
                 key={msg._id}
                 className={`message-item ${msg.status === 'unread' ? 'unread' : ''} ${selectedMessage?._id === msg._id ? 'selected' : ''}`}
                 onClick={() => {
@@ -188,13 +188,13 @@ const AdminMessages = () => {
                   </div>
                 </div>
                 <div className="detail-actions">
-                  <a 
+                  <a
                     href={`mailto:${selectedMessage.email}?subject=Re: ${selectedMessage.subject}`}
                     className="btn-reply"
                   >
                     REPLY →
                   </a>
-                  <button 
+                  <button
                     className="btn-delete"
                     onClick={() => confirmDelete(selectedMessage)}
                   >
@@ -249,7 +249,7 @@ const AdminMessages = () => {
 
       {/* Delete Confirmation Modal */}
       {deleteConfirm.show && (
-        <div 
+        <div
           style={{
             position: 'fixed',
             top: 0,
@@ -265,7 +265,7 @@ const AdminMessages = () => {
           }}
           onClick={() => setDeleteConfirm({ show: false, id: null, subject: '' })}
         >
-          <div 
+          <div
             style={{
               background: '#1a1a1a',
               borderRadius: '12px',
@@ -291,9 +291,9 @@ const AdminMessages = () => {
               }}>
                 <span style={{ fontSize: '1.8rem' }}>🗑️</span>
               </div>
-              <h3 style={{ 
-                fontFamily: "'Bebas Neue', sans-serif", 
-                fontSize: '1.5rem', 
+              <h3 style={{
+                fontFamily: "'Bebas Neue', sans-serif",
+                fontSize: '1.5rem',
                 color: '#fff',
                 marginBottom: '0.5rem',
                 letterSpacing: '1px'
@@ -305,7 +305,7 @@ const AdminMessages = () => {
               </p>
             </div>
             <div style={{ display: 'flex', gap: '1rem' }}>
-              <button 
+              <button
                 onClick={() => setDeleteConfirm({ show: false, id: null, subject: '' })}
                 style={{
                   flex: 1,
@@ -320,7 +320,7 @@ const AdminMessages = () => {
               >
                 Cancel
               </button>
-              <button 
+              <button
                 onClick={() => handleDelete(deleteConfirm.id)}
                 style={{
                   flex: 1,

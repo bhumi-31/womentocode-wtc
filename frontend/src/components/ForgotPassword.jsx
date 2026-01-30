@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Auth.css';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+import { API_URL } from '../config';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -16,7 +16,7 @@ const ForgotPassword = () => {
     setIsLoading(true);
     setError('');
     setSuccess('');
-    
+
     try {
       const response = await fetch(`${API_URL}/auth/forgot-password`, {
         method: 'POST',
@@ -25,9 +25,9 @@ const ForgotPassword = () => {
         },
         body: JSON.stringify({ email })
       });
-      
+
       const data = await response.json();
-      
+
       if (data.success) {
         setSuccess(data.message);
         setEmailSent(true);
@@ -56,9 +56,9 @@ const ForgotPassword = () => {
             <span>TO</span>
             <span className="highlight">CODE</span>
           </h1>
-          
+
           <div className="brand-divider"></div>
-          
+
           <p className="brand-tagline">
             Building a community of <span className="highlight">5000+</span> women in tech
           </p>
@@ -102,8 +102,8 @@ const ForgotPassword = () => {
                 <div className="form-group">
                   <div className="input-wrapper">
                     <svg className="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                      <polyline points="22,6 12,13 2,6"/>
+                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                      <polyline points="22,6 12,13 2,6" />
                     </svg>
                     <input
                       type="email"
@@ -128,8 +128,8 @@ const ForgotPassword = () => {
             <div className="success-state">
               <div className="success-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                  <polyline points="22 4 12 14.01 9 11.01"/>
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                  <polyline points="22 4 12 14.01 9 11.01" />
                 </svg>
               </div>
               <h2 className="form-title">CHECK YOUR EMAIL</h2>
@@ -140,8 +140,8 @@ const ForgotPassword = () => {
               <p className="form-subtitle" style={{ fontSize: '0.85rem', marginTop: '20px', opacity: 0.7 }}>
                 Didn't receive the email? Check your spam folder or
               </p>
-              <button 
-                className="submit-btn secondary" 
+              <button
+                className="submit-btn secondary"
                 onClick={() => setEmailSent(false)}
                 style={{ marginTop: '10px' }}
               >

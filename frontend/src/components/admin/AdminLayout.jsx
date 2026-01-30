@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import './Admin.css';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+import { API_URL } from '../../config';
 
 const AdminLayout = () => {
   const [user, setUser] = useState(null);
@@ -25,7 +25,7 @@ const AdminLayout = () => {
     }
 
     const userData = JSON.parse(storedUser);
-    
+
     if (userData.role !== 'admin') {
       setAccessDenied(true);
       setTimeout(() => navigate('/'), 3000);

@@ -3,7 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom'
 import Navbar from './Navbar'
 import './TeamMember.css'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001'
+import { API_URL } from '../config'
 
 function TeamMember() {
   const { memberId } = useParams()
@@ -12,7 +12,7 @@ function TeamMember() {
   const [member, setMember] = useState(null)
   const [allMembers, setAllMembers] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-  
+
   // Fetch team members from API
   useEffect(() => {
     const fetchTeamMembers = async () => {
@@ -20,14 +20,14 @@ function TeamMember() {
         setIsLoading(true)
         const response = await fetch(`${API_URL}/team`)
         const data = await response.json()
-        
+
         let members = []
         if (data.success && Array.isArray(data.data)) {
           members = data.data
         } else if (Array.isArray(data)) {
           members = data
         }
-        
+
         setAllMembers(members)
         const foundMember = members.find(m => m.id === memberId || m._id === memberId)
         setMember(foundMember)
@@ -37,14 +37,14 @@ function TeamMember() {
         setIsLoading(false)
       }
     }
-    
+
     fetchTeamMembers()
   }, [memberId])
-  
+
   useEffect(() => {
     // Scroll to top on mount
     window.scrollTo(0, 0)
-    
+
     // Trigger animations
     setTimeout(() => setLoaded(true), 100)
   }, [memberId])
@@ -89,7 +89,7 @@ function TeamMember() {
   return (
     <div className="member-page">
       <Navbar />
-      
+
       {/* Back Button */}
       <button className="back-button" onClick={() => navigate('/team')}>
         <span className="back-arrow">←</span>
@@ -111,7 +111,7 @@ function TeamMember() {
           <div className="member-info">
             <h1 className="member-name">{member.name}</h1>
             <p className="member-role">{member.role}</p>
-            
+
             <blockquote className="member-quote">
               "{member.quote}"
             </blockquote>
@@ -119,7 +119,7 @@ function TeamMember() {
             {/* Social Links */}
             <div className="member-social">
               {Object.entries(member.social).map(([platform, url]) => (
-                <a 
+                <a
                   key={platform}
                   href={platform === 'email' ? `mailto:${url}` : url}
                   target={platform === 'email' ? '_self' : '_blank'}
@@ -133,7 +133,7 @@ function TeamMember() {
             </div>
           </div>
         </div>
-        
+
         <div className="hero-bg-gradient"></div>
       </section>
 
@@ -186,8 +186,8 @@ function TeamMember() {
             .filter(m => (m.id || m._id) !== (member.id || member._id))
             .slice(0, 4)
             .map((otherMember) => (
-              <Link 
-                to={`/team/${otherMember.id || otherMember._id}`} 
+              <Link
+                to={`/team/${otherMember.id || otherMember._id}`}
                 key={otherMember.id || otherMember._id}
                 className="other-member-card"
               >

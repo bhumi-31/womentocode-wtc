@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+import { API_URL } from '../../config';
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState({
@@ -19,7 +19,7 @@ const AdminDashboard = () => {
 
   const fetchDashboardData = async () => {
     const token = localStorage.getItem('token');
-    
+
     try {
       const usersRes = await fetch(`${API_URL}/auth/users`, {
         headers: { 'Authorization': `Bearer ${token}` }
@@ -44,7 +44,7 @@ const AdminDashboard = () => {
 
       const usersArray = Array.isArray(usersData.data) ? usersData.data : (Array.isArray(usersData) ? usersData : []);
       const messagesArray = Array.isArray(messagesData.data) ? messagesData.data : (Array.isArray(messagesData) ? messagesData : []);
-      
+
       if (messagesArray.length > 0) setRecentMessages(messagesArray.slice(0, 4));
       if (usersArray.length > 0) setRecentUsers(usersArray.slice(0, 4));
 
@@ -101,8 +101,8 @@ const AdminDashboard = () => {
         <div className="messages-grid">
           {recentMessages.length > 0 ? (
             recentMessages.map((msg, index) => (
-              <div 
-                key={msg._id || index} 
+              <div
+                key={msg._id || index}
                 className={`message-card ${msg.status === 'unread' ? 'unread' : ''}`}
               >
                 {msg.status === 'unread' && <span className="new-badge">NEW</span>}

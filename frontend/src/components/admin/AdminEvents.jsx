@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+import { API_URL } from '../../config';
 
 const AdminEvents = () => {
   const [events, setEvents] = useState([]);
@@ -47,14 +47,14 @@ const AdminEvents = () => {
 
   const fetchEvents = async () => {
     const token = localStorage.getItem('token');
-    
+
     try {
       // Try public events endpoint first
       const response = await fetch(`${API_URL}/events`);
       const data = await response.json();
-      
+
       console.log('Events API response:', data);
-      
+
       if (Array.isArray(data)) {
         console.log('Setting events from array:', data.length);
         setEvents(data);
@@ -88,12 +88,12 @@ const AdminEvents = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
-    
+
     try {
-      const url = editingEvent 
+      const url = editingEvent
         ? `${API_URL}/events/${editingEvent._id}`
         : `${API_URL}/events`;
-      
+
       const response = await fetch(url, {
         method: editingEvent ? 'PUT' : 'POST',
         headers: {
@@ -102,9 +102,9 @@ const AdminEvents = () => {
         },
         body: JSON.stringify(formData)
       });
-      
+
       const data = await response.json();
-      
+
       if (response.ok) {
         showNotification(editingEvent ? 'Event updated successfully!' : 'Event added successfully!', 'success');
         fetchEvents();
@@ -120,13 +120,13 @@ const AdminEvents = () => {
 
   const handleDelete = async (id) => {
     const token = localStorage.getItem('token');
-    
+
     try {
       const response = await fetch(`${API_URL}/events/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
-      
+
       if (response.ok) {
         showNotification('Event deleted successfully!', 'success');
         fetchEvents();
@@ -182,7 +182,7 @@ const AdminEvents = () => {
         fullDate = `${event.year}-${String(monthIndex + 1).padStart(2, '0')}-${String(event.date).padStart(2, '0')}`;
       }
     }
-    
+
     setEditingEvent(event);
     setFormData({
       title: event.title || '',
@@ -278,7 +278,7 @@ const AdminEvents = () => {
 
       {/* Events List */}
       <div className="events-list" style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '2rem' }}>
-        
+
         {filteredEvents.map((event, index) => (
           <div key={event._id || index} style={{
             background: '#111111',
@@ -312,7 +312,7 @@ const AdminEvents = () => {
             </div>
           </div>
         ))}
-        
+
         {filteredEvents.length === 0 && (
           <div className="empty-state">
             <p>No events found</p>
@@ -335,7 +335,7 @@ const AdminEvents = () => {
                 <input
                   type="text"
                   value={formData.title}
-                  onChange={e => setFormData({...formData, title: e.target.value})}
+                  onChange={e => setFormData({ ...formData, title: e.target.value })}
                   placeholder="e.g., React & Node.js Masterclass"
                   required
                 />
@@ -346,7 +346,7 @@ const AdminEvents = () => {
                   <label>Event Type *</label>
                   <select
                     value={formData.type}
-                    onChange={e => setFormData({...formData, type: e.target.value})}
+                    onChange={e => setFormData({ ...formData, type: e.target.value })}
                   >
                     <option value="Workshop">Workshop</option>
                     <option value="Talk">Talk</option>
@@ -363,7 +363,7 @@ const AdminEvents = () => {
                   <label>Status</label>
                   <select
                     value={formData.status}
-                    onChange={e => setFormData({...formData, status: e.target.value})}
+                    onChange={e => setFormData({ ...formData, status: e.target.value })}
                   >
                     <option value="draft">Draft</option>
                     <option value="upcoming">Upcoming</option>
@@ -379,7 +379,7 @@ const AdminEvents = () => {
                 <input
                   type="text"
                   value={formData.shortDescription}
-                  onChange={e => setFormData({...formData, shortDescription: e.target.value})}
+                  onChange={e => setFormData({ ...formData, shortDescription: e.target.value })}
                   placeholder="Brief description for cards..."
                   maxLength={200}
                 />
@@ -389,7 +389,7 @@ const AdminEvents = () => {
                 <label>Full Description *</label>
                 <textarea
                   value={formData.description}
-                  onChange={e => setFormData({...formData, description: e.target.value})}
+                  onChange={e => setFormData({ ...formData, description: e.target.value })}
                   rows={4}
                   placeholder="Detailed event description..."
                   required
@@ -423,7 +423,7 @@ const AdminEvents = () => {
                   <input
                     type="text"
                     value={formData.time}
-                    onChange={e => setFormData({...formData, time: e.target.value})}
+                    onChange={e => setFormData({ ...formData, time: e.target.value })}
                     placeholder="e.g., 10:00 AM or To Be Announced"
                     required
                   />
@@ -436,7 +436,7 @@ const AdminEvents = () => {
                 <input
                   type="text"
                   value={formData.location}
-                  onChange={e => setFormData({...formData, location: e.target.value})}
+                  onChange={e => setFormData({ ...formData, location: e.target.value })}
                   placeholder="e.g., Online + LPU Campus, LPU Auditorium, Online"
                   required
                 />
@@ -446,7 +446,7 @@ const AdminEvents = () => {
                   <input
                     type="checkbox"
                     checked={formData.isOnline}
-                    onChange={e => setFormData({...formData, isOnline: e.target.checked})}
+                    onChange={e => setFormData({ ...formData, isOnline: e.target.checked })}
                   />
                   This is an online event
                 </label>
@@ -459,7 +459,7 @@ const AdminEvents = () => {
                   <input
                     type="text"
                     value={formData.speaker.name}
-                    onChange={e => setFormData({...formData, speaker: {...formData.speaker, name: e.target.value}})}
+                    onChange={e => setFormData({ ...formData, speaker: { ...formData.speaker, name: e.target.value } })}
                     placeholder="e.g., Priya Sharma"
                     required
                   />
@@ -469,7 +469,7 @@ const AdminEvents = () => {
                   <input
                     type="text"
                     value={formData.speaker.role}
-                    onChange={e => setFormData({...formData, speaker: {...formData.speaker, role: e.target.value}})}
+                    onChange={e => setFormData({ ...formData, speaker: { ...formData.speaker, role: e.target.value } })}
                     placeholder="e.g., Tech Lead, Ex-Google"
                     required
                   />
@@ -485,14 +485,14 @@ const AdminEvents = () => {
                     if (file) {
                       const reader = new FileReader();
                       reader.onloadend = () => {
-                        setFormData({...formData, speaker: {...formData.speaker, image: reader.result}});
+                        setFormData({ ...formData, speaker: { ...formData.speaker, image: reader.result } });
                       };
                       reader.readAsDataURL(file);
                     }
                   }}
-                  style={{ 
-                    background: '#1a1a1a', 
-                    border: '1px solid #333', 
+                  style={{
+                    background: '#1a1a1a',
+                    border: '1px solid #333',
                     padding: '0.75rem',
                     color: '#fff',
                     width: '100%',
@@ -501,16 +501,16 @@ const AdminEvents = () => {
                 />
                 {formData.speaker.image && (
                   <div style={{ marginTop: '0.75rem' }}>
-                    <img 
-                      src={formData.speaker.image} 
-                      alt="Speaker preview" 
-                      style={{ 
-                        width: '80px', 
-                        height: '80px', 
-                        objectFit: 'cover', 
+                    <img
+                      src={formData.speaker.image}
+                      alt="Speaker preview"
+                      style={{
+                        width: '80px',
+                        height: '80px',
+                        objectFit: 'cover',
                         borderRadius: '50%',
                         border: '2px solid #F7D046'
-                      }} 
+                      }}
                     />
                   </div>
                 )}
@@ -523,7 +523,7 @@ const AdminEvents = () => {
                   <input
                     type="text"
                     value={formData.registrationLink}
-                    onChange={e => setFormData({...formData, registrationLink: e.target.value})}
+                    onChange={e => setFormData({ ...formData, registrationLink: e.target.value })}
                     placeholder="https://..."
                   />
                 </div>
@@ -532,7 +532,7 @@ const AdminEvents = () => {
                   <input
                     type="number"
                     value={formData.maxAttendees}
-                    onChange={e => setFormData({...formData, maxAttendees: e.target.value})}
+                    onChange={e => setFormData({ ...formData, maxAttendees: e.target.value })}
                   />
                 </div>
               </div>
@@ -547,7 +547,7 @@ const AdminEvents = () => {
                     if (file) {
                       const reader = new FileReader();
                       reader.onloadend = () => {
-                        setFormData({...formData, image: reader.result});
+                        setFormData({ ...formData, image: reader.result });
                       };
                       reader.readAsDataURL(file);
                     }
@@ -579,7 +579,7 @@ const AdminEvents = () => {
 
       {/* Delete Confirmation Modal */}
       {deleteConfirm.show && (
-        <div 
+        <div
           style={{
             position: 'fixed',
             top: 0,
@@ -595,7 +595,7 @@ const AdminEvents = () => {
           }}
           onClick={() => setDeleteConfirm({ show: false, id: null, title: '' })}
         >
-          <div 
+          <div
             style={{
               background: '#1a1a1a',
               borderRadius: '12px',
@@ -621,9 +621,9 @@ const AdminEvents = () => {
               }}>
                 <span style={{ fontSize: '1.8rem' }}>🗑️</span>
               </div>
-              <h3 style={{ 
-                fontFamily: "'Bebas Neue', sans-serif", 
-                fontSize: '1.5rem', 
+              <h3 style={{
+                fontFamily: "'Bebas Neue', sans-serif",
+                fontSize: '1.5rem',
                 color: '#fff',
                 marginBottom: '0.5rem',
                 letterSpacing: '1px'
@@ -635,7 +635,7 @@ const AdminEvents = () => {
               </p>
             </div>
             <div style={{ display: 'flex', gap: '1rem' }}>
-              <button 
+              <button
                 onClick={() => setDeleteConfirm({ show: false, id: null, title: '' })}
                 style={{
                   flex: 1,
@@ -650,7 +650,7 @@ const AdminEvents = () => {
               >
                 Cancel
               </button>
-              <button 
+              <button
                 onClick={() => handleDelete(deleteConfirm.id)}
                 style={{
                   flex: 1,
