@@ -62,7 +62,7 @@ function JoinUs() {
           whyJoin: ''
         })
       } else {
-        setSubmitStatus('error')
+        setSubmitStatus(data.message || 'error')
       }
     } catch (error) {
       console.error('Error submitting form:', error)
@@ -152,14 +152,14 @@ function JoinUs() {
                 </div>
               )}
 
-              {submitStatus === 'error' && (
+              {submitStatus && submitStatus !== 'success' && (
                 <div className="alert alert-error">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <circle cx="12" cy="12" r="10" />
                     <line x1="15" y1="9" x2="9" y2="15" />
                     <line x1="9" y1="9" x2="15" y2="15" />
                   </svg>
-                  <span>Something went wrong. Please try again.</span>
+                  <span>{submitStatus === 'error' ? 'Something went wrong. Please try again.' : submitStatus}</span>
                 </div>
               )}
 
