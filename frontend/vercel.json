@@ -1,4 +1,9 @@
 {
+  "build": {
+    "env": {
+      "VITE_API_URL": "https://womentocode-wtc.onrender.com"
+    }
+  },
   "rewrites": [
     {
       "source": "/(.*)",
