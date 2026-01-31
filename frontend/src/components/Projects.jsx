@@ -120,50 +120,16 @@ const Projects = () => {
   const SkeletonCard = ({ index }) => (
     <div
       className="project-card skeleton-card"
-      style={{
-        animationDelay: `${index * 0.1}s`,
-        background: '#111',
-        borderRadius: '16px',
-        overflow: 'hidden'
-      }}
+      style={{ animationDelay: `${index * 0.1}s` }}
     >
-      <div style={{
-        width: '100%',
-        height: '200px',
-        background: 'linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%)',
-        backgroundSize: '200% 100%',
-        animation: 'shimmer 1.5s infinite'
-      }}></div>
-      <div style={{ padding: '1.5rem' }}>
-        <div style={{
-          width: '80%',
-          height: '24px',
-          background: 'linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%)',
-          backgroundSize: '200% 100%',
-          animation: 'shimmer 1.5s infinite',
-          borderRadius: '4px',
-          marginBottom: '0.75rem'
-        }}></div>
-        <div style={{
-          width: '60%',
-          height: '16px',
-          background: 'linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%)',
-          backgroundSize: '200% 100%',
-          animation: 'shimmer 1.5s infinite',
-          borderRadius: '4px',
-          marginBottom: '1rem'
-        }}></div>
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
-          {[1, 2, 3].map(i => (
-            <div key={i} style={{
-              width: '60px',
-              height: '24px',
-              background: 'linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%)',
-              backgroundSize: '200% 100%',
-              animation: 'shimmer 1.5s infinite',
-              borderRadius: '12px'
-            }}></div>
-          ))}
+      <div className="skeleton-image-wrapper"></div>
+      <div className="skeleton-content">
+        <div className="skeleton-name"></div>
+        <div className="skeleton-role"></div>
+        <div className="skeleton-tech-row">
+          <div className="skeleton-tech"></div>
+          <div className="skeleton-tech"></div>
+          <div className="skeleton-tech"></div>
         </div>
       </div>
     </div>
