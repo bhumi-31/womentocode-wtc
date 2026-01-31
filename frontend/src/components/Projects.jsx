@@ -215,7 +215,7 @@ const Projects = () => {
             </h1>
             {isVisible && (
               <p className="projects-stats visible">
-                {totalProjects} projects by {uniqueCreators} incredible women
+                {loading ? 'Discovering amazing projects... 🚀' : `${totalProjects} projects by ${uniqueCreators} incredible women`}
               </p>
             )}
           </div>
