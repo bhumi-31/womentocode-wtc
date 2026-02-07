@@ -47,12 +47,15 @@
     transform: translateY(0) rotate(0deg);
     opacity: 0;
   }
+
   10% {
     opacity: 0.4;
   }
+
   90% {
     opacity: 0.4;
   }
+
   100% {
     transform: translateY(-100vh) rotate(360deg);
     opacity: 0;
@@ -86,6 +89,7 @@
     opacity: 0;
     transform: translateX(-30px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -122,7 +126,7 @@
   position: absolute;
   inset: 0;
   background: radial-gradient(ellipse at 20% 30%, rgba(247, 208, 70, 0.06) 0%, transparent 50%),
-              radial-gradient(ellipse at 80% 70%, rgba(114, 47, 55, 0.08) 0%, transparent 50%);
+    radial-gradient(ellipse at 80% 70%, rgba(114, 47, 55, 0.08) 0%, transparent 50%);
   z-index: 0;
   animation: bgPulse 8s ease-in-out infinite alternate;
 }
@@ -132,6 +136,7 @@
     opacity: 0.5;
     transform: scale(1);
   }
+
   100% {
     opacity: 1;
     transform: scale(1.1);
@@ -181,8 +186,15 @@
 }
 
 @keyframes gradientBorder {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 .member-image {
@@ -214,6 +226,7 @@
     opacity: 0.4;
     transform: scale(0.95);
   }
+
   100% {
     opacity: 0.7;
     transform: scale(1.05);
@@ -224,14 +237,12 @@
 .image-shine {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    115deg,
-    transparent 20%,
-    rgba(255, 255, 255, 0.1) 40%,
-    rgba(255, 255, 255, 0.3) 50%,
-    rgba(255, 255, 255, 0.1) 60%,
-    transparent 80%
-  );
+  background: linear-gradient(115deg,
+      transparent 20%,
+      rgba(255, 255, 255, 0.1) 40%,
+      rgba(255, 255, 255, 0.3) 50%,
+      rgba(255, 255, 255, 0.1) 60%,
+      transparent 80%);
   transform: translateX(-100%);
   animation: imageShine 4s ease-in-out infinite;
   animation-delay: 1s;
@@ -239,9 +250,12 @@
 }
 
 @keyframes imageShine {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateX(-100%);
   }
+
   50% {
     transform: translateX(100%);
   }
@@ -289,12 +303,16 @@
 }
 
 @keyframes floatBadge {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0) rotate(0deg);
   }
+
   25% {
     transform: translateY(-15px) rotate(5deg);
   }
+
   75% {
     transform: translateY(10px) rotate(-5deg);
   }
@@ -325,7 +343,7 @@
 
 .name-char {
   display: inline-block;
-  background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.8) 100%);
+  background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.8) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -371,6 +389,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -501,9 +520,11 @@
     transform: translateY(-20px);
     opacity: 0;
   }
+
   50% {
     opacity: 1;
   }
+
   100% {
     transform: translateY(60px);
     opacity: 0;
@@ -589,8 +610,13 @@
 }
 
 @keyframes spinSlow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .bio-text p {
@@ -641,10 +667,13 @@
 }
 
 @keyframes dotPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1);
     opacity: 1;
   }
+
   50% {
     transform: scale(1.5);
     opacity: 0.5;
@@ -749,9 +778,12 @@
 }
 
 @keyframes iconBounce {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-10px);
   }
@@ -766,10 +798,13 @@
 }
 
 @keyframes ringPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1);
     opacity: 0.5;
   }
+
   50% {
     transform: scale(1.2);
     opacity: 0;
@@ -792,14 +827,12 @@
 .card-shine {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    115deg,
-    transparent 20%,
-    rgba(255, 255, 255, 0.05) 40%,
-    rgba(255, 255, 255, 0.1) 50%,
-    rgba(255, 255, 255, 0.05) 60%,
-    transparent 80%
-  );
+  background: linear-gradient(115deg,
+      transparent 20%,
+      rgba(255, 255, 255, 0.05) 40%,
+      rgba(255, 255, 255, 0.1) 50%,
+      rgba(255, 255, 255, 0.05) 60%,
+      transparent 80%);
   transform: translateX(-100%);
   transition: transform 0.6s ease;
 }
@@ -811,13 +844,11 @@
 /* Other Members Section */
 .other-members-section {
   padding: 80px 5% 120px;
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    rgba(247, 208, 70, 0.03) 30%,
-    rgba(247, 208, 70, 0.03) 70%,
-    transparent
-  );
+  background: linear-gradient(to bottom,
+      transparent,
+      rgba(247, 208, 70, 0.03) 30%,
+      rgba(247, 208, 70, 0.03) 70%,
+      transparent);
 }
 
 .other-members-grid {
@@ -903,89 +934,263 @@
     gap: 40px;
     text-align: center;
   }
-  
+
   .member-image-container {
     max-width: 350px;
     margin: 0 auto;
   }
-  
+
   .name-wrapper {
     justify-content: center;
   }
-  
+
   .member-role {
     justify-content: center;
   }
-  
+
   .member-quote {
     text-align: center;
   }
-  
+
   .member-social {
     justify-content: center;
   }
-  
+
   .details-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .achievements-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .other-members-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .back-button {
     left: 20px;
     top: 90px;
     padding: 10px 18px;
     font-size: 0.85rem;
   }
-  
+
   .floating-badge {
     display: none;
   }
 }
 
 @media (max-width: 600px) {
+  .member-page {
+    overflow-x: hidden;
+  }
+
   .member-hero {
-    padding: 100px 5% 60px;
+    min-height: auto;
+    padding: 90px 5% 40px;
+    align-items: flex-start;
   }
-  
+
+  .member-hero-grid {
+    gap: 25px;
+  }
+
+  .member-image-container {
+    max-width: 280px;
+  }
+
+  .image-frame {
+    border-radius: 16px;
+  }
+
+  .image-frame::before {
+    border-radius: 18px;
+    inset: -2px;
+  }
+
+  .member-image {
+    border-radius: 16px;
+    aspect-ratio: 3/4;
+  }
+
   .name-wrapper {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
   }
-  
+
+  .member-role {
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    margin-bottom: 1.2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .role-line {
+    width: 20px;
+  }
+
   .member-quote {
-    font-size: 1.1rem;
+    font-size: 1rem;
+    padding: 15px 0;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
   }
-  
+
   .quote-mark {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
-  
+
+  .member-social {
+    gap: 12px;
+  }
+
+  .social-link {
+    width: 45px;
+    height: 45px;
+  }
+
+  .social-icon {
+    font-size: 1rem;
+  }
+
+  /* Details Section Mobile */
+  .member-details {
+    padding: 40px 5%;
+  }
+
   .detail-block {
-    padding: 25px;
+    padding: 20px;
+    border-radius: 16px;
   }
-  
+
+  .detail-title {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+  }
+
+  .bio-text p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  .skills-list {
+    gap: 8px;
+  }
+
+  .skill-tag {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+  }
+
+  /* Achievements Mobile */
+  .achievements-section {
+    padding: 40px 5% 60px;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+  }
+
   .achievements-grid {
     grid-template-columns: 1fr;
-  }
-  
-  .other-members-grid {
-    grid-template-columns: 1fr 1fr;
     gap: 15px;
   }
-  
+
+  .achievement-card {
+    padding: 25px 20px;
+    border-radius: 16px;
+  }
+
+  .achievement-icon {
+    font-size: 2.2rem;
+  }
+
+  .achievement-title {
+    font-size: 1.2rem;
+  }
+
+  .achievement-subtitle {
+    font-size: 0.8rem;
+  }
+
+  /* Other Members Mobile */
+  .other-members-section {
+    padding: 50px 5% 80px;
+  }
+
+  .other-members-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .other-member-card {
+    border-radius: 12px;
+  }
+
+  .other-member-info {
+    padding: 15px 12px;
+  }
+
+  .other-member-info h4 {
+    font-size: 1rem;
+  }
+
+  .other-member-info p {
+    font-size: 0.7rem;
+  }
+
+  /* Back Button Mobile */
   .back-button {
-    position: absolute;
+    position: fixed;
     left: 15px;
     top: 80px;
+    padding: 8px 14px;
+    font-size: 0.8rem;
+    gap: 6px;
   }
-  
+
+  .back-arrow {
+    font-size: 1rem;
+  }
+
   .scroll-indicator-member {
     display: none;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 400px) {
+  .member-hero {
+    padding: 85px 4% 30px;
+  }
+
+  .member-image-container {
+    max-width: 240px;
+  }
+
+  .name-wrapper {
+    font-size: 1.9rem;
+  }
+
+  .member-role {
+    font-size: 0.8rem;
+  }
+
+  .member-quote {
+    font-size: 0.9rem;
+  }
+
+  .other-members-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .other-member-card img {
+    aspect-ratio: 16/12;
   }
 }

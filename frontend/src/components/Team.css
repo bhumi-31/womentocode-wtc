@@ -1146,26 +1146,146 @@
     gap: 15px;
   }
 
+  /* Expanded Content Mobile Fixes */
+  .expanded-overlay {
+    padding: 0;
+    align-items: flex-start;
+  }
+
   .expanded-content {
+    width: 100%;
+    max-width: 100%;
+    height: 100vh;
+    max-height: 100vh;
+    min-height: 100vh;
+    border-radius: 0;
     padding: 20px;
-    height: 90vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .expanded-main {
+    flex-direction: column;
+    gap: 20px;
+    padding: 15px 0;
+  }
+
+  .expanded-photo-container {
+    width: 200px;
+    height: 260px;
+    margin: 0 auto;
+  }
+
+  .expanded-photo-container img {
+    border-radius: 16px;
+  }
+
+  .photo-frame {
+    inset: -6px;
+    border-radius: 20px;
+    border-width: 1px;
+  }
+
+  .expanded-stats-box {
+    width: 100%;
+    max-width: 100%;
+    padding: 25px 20px;
+    border-radius: 20px;
+  }
+
+  .stats-header {
+    margin-bottom: 20px;
+  }
+
+  .stats-role {
+    font-size: 0.75rem;
+    letter-spacing: 1.5px;
   }
 
   .stats-grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
+    margin-bottom: 20px;
   }
 
   .stat-value {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
 
   .stat-label {
     font-size: 0.6rem;
   }
+
+  .tech-stack-section {
+    margin-bottom: 15px;
+    padding-bottom: 12px;
+  }
+
+  .tech-tags {
+    gap: 6px;
+  }
+
+  .tech-tag {
+    padding: 5px 10px;
+    font-size: 0.7rem;
+  }
+
+  .member-bio,
+  .member-quote {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin-bottom: 15px;
+    padding-top: 15px;
+  }
+
+  .expanded-social {
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .expanded-social a {
+    width: 36px;
+    height: 36px;
+  }
+
+  .expanded-social svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* Name Typography Mobile */
+  .expanded-first-name,
+  .expanded-last-name {
+    font-size: clamp(2rem, 8vw, 4rem);
+    text-align: center;
+    letter-spacing: 2px;
+  }
+
+  .expanded-name-top,
+  .expanded-name-bottom {
+    text-align: center;
+  }
+
+  .close-btn {
+    width: 40px;
+    height: 40px;
+    top: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .close-btn svg {
+    width: 20px;
+    height: 20px;
+  }
 }
 
 @media (max-width: 480px) {
+  .team-showcase {
+    padding: 85px 4% 30px;
+  }
+
   .card-stack {
     width: 250px;
     height: 340px;
@@ -1181,14 +1301,83 @@
 
   .team-grid {
     grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  /* Expanded Content Extra Small */
+  .expanded-content {
+    padding: 15px;
   }
 
   .expanded-photo-container {
-    width: 200px;
-    height: 260px;
+    width: 180px;
+    height: 230px;
   }
 
   .expanded-stats-box {
-    padding: 25px;
+    padding: 20px 15px;
+    border-radius: 16px;
+  }
+
+  .stats-grid {
+    gap: 8px;
+  }
+
+  .stat-value {
+    font-size: 1.2rem;
+  }
+
+  .stat-label {
+    font-size: 0.55rem;
+  }
+
+  .expanded-first-name,
+  .expanded-last-name {
+    font-size: clamp(1.8rem, 10vw, 3rem);
+    letter-spacing: 1px;
+  }
+
+  .member-bio,
+  .member-quote {
+    font-size: 0.8rem;
+    line-height: 1.45;
+  }
+
+  .tech-tag {
+    padding: 4px 8px;
+    font-size: 0.65rem;
+  }
+
+  .close-btn {
+    width: 36px;
+    height: 36px;
+    top: 10px;
+    right: 10px;
+  }
+
+  .close-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Very small devices */
+@media (max-width: 360px) {
+  .expanded-photo-container {
+    width: 160px;
+    height: 200px;
+  }
+
+  .expanded-stats-box {
+    padding: 15px 12px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .expanded-first-name,
+  .expanded-last-name {
+    font-size: 1.6rem;
   }
 }
